@@ -1,0 +1,11 @@
+test_added_and_removed_deployed_files_change_identity (test_runtime_identity.RuntimeIdentityTests.test_added_and_removed_deployed_files_change_identity) ... ok
+test_every_executed_component_changes_identity (test_runtime_identity.RuntimeIdentityTests.test_every_executed_component_changes_identity) ... ok
+test_native_only_layout_is_rejected (test_runtime_identity.RuntimeIdentityTests.test_native_only_layout_is_rejected) ... ok
+test_symlinked_closure_is_not_silently_omitted (test_runtime_identity.RuntimeIdentityTests.test_symlinked_closure_is_not_silently_omitted) ... ok
+test_symlinked_dist_root_is_not_silently_followed (test_runtime_identity.RuntimeIdentityTests.test_symlinked_dist_root_is_not_silently_followed) ... ok
+test_wrong_declared_root_is_rejected (test_runtime_identity.RuntimeIdentityTests.test_wrong_declared_root_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.070s
+
+OK

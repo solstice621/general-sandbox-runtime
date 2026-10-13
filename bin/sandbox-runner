@@ -1,0 +1,84 @@
+#!/bin/sh
+# The build replaces __NODE__ with a shell-quoted absolute Node executable path.
+# This small bootstrap validates raw inherited handles before Node creates its
+# own descriptors. Keep everything through the snapshot export builtin-only:
+# no command substitution, pipelines, external commands, process substitution,
+# or file-opening redirections. The TypeScript CLI owns complete flag validation.
+
+SANDBOX_RUNTIME_SOURCE_SNAPSHOT=''
+sandbox_expect=''
+sandbox_action_seen=''
+
+sandbox_fail() {
+  printf '%s\n' "sandbox-runtime: INVALID_POLICY: $1" >&2
+  exit 125
+}
+
+sandbox_snapshot_grant() {
+  case "$1" in
+    *:*) sandbox_source=${1%%:*} ;;
+    *) sandbox_fail 'invalid FD grant: expected source:target' ;;
+  esac
+  case "$sandbox_source" in
+    ''|0*|*[!0-9]*) sandbox_fail 'FD grant source must be canonical decimal 3..1024' ;;
+  esac
+  # Bound the string before numeric comparison, avoiding integer-overflow input.
+  if [ "${#sandbox_source}" -gt 4 ] ||
+     [ "$sandbox_source" -lt 3 ] || [ "$sandbox_source" -gt 1024 ]; then
+    sandbox_fail 'FD grant source must be canonical decimal 3..1024'
+  fi
+  if [ ! -p "/dev/fd/$sandbox_source" ] && [ ! -S "/dev/fd/$sandbox_source" ]; then
+    sandbox_fail 'FD grant source is unavailable or is not a pipe/socket'
+  fi
+  SANDBOX_RUNTIME_SOURCE_SNAPSHOT="${SANDBOX_RUNTIME_SOURCE_SNAPSHOT:+$SANDBOX_RUNTIME_SOURCE_SNAPSHOT,}$sandbox_source"
+}
+
+for sandbox_arg in "$@"; do
+  if [ -z "$sandbox_action_seen" ]; then
+    sandbox_action_seen=1
+    continue
+  fi
+  case "$sandbox_expect" in
+    grant)
+      sandbox_snapshot_grant "$sandbox_arg"
+      sandbox_expect=''
+      continue
+      ;;
+    value)
+      sandbox_expect=''
+      continue
+      ;;
+  esac
+  case "$sandbox_arg" in
+    --) break ;;
+    --grant-fd) sandbox_expect=grant ;;
+    --grant-fd=*) sandbox_snapshot_grant "${sandbox_arg#--grant-fd=}" ;;
+    --policy-file|--policy-json|--timeout|--grace) sandbox_expect=value ;;
+    --*) ;;
+    *) break ;;
+  esac
+done
+if [ "$sandbox_expect" = grant ]; then
+  sandbox_fail 'missing FD grant value'
+fi
+export SANDBOX_RUNTIME_SOURCE_SNAPSHOT
+unset NODE_OPTIONS NODE_PATH
+
+# Only now may path resolution allocate descriptors in a subshell.
+case "$0" in
+  */*) sandbox_script=$0 ;;
+  *) sandbox_script=$(command -v "$0") || sandbox_fail 'cannot locate runtime launcher' ;;
+esac
+sandbox_links=0
+while [ -L "$sandbox_script" ]; do
+  sandbox_links=$((sandbox_links + 1))
+  [ "$sandbox_links" -le 40 ] || sandbox_fail 'launcher symlink chain is too long'
+  sandbox_link=$(/usr/bin/readlink "$sandbox_script") || sandbox_fail 'cannot resolve runtime launcher'
+  case "$sandbox_link" in
+    /*) sandbox_script=$sandbox_link ;;
+    *) sandbox_script=${sandbox_script%/*}/$sandbox_link ;;
+  esac
+done
+sandbox_dir=${sandbox_script%/*}
+sandbox_root=$(CDPATH= cd -P -- "$sandbox_dir/.." && pwd -P) || sandbox_fail 'cannot locate runtime root'
+exec '/opt/homebrew/Cellar/node@24/24.19.0/bin/node' "$sandbox_root/dist/src/cli.js" "$@"

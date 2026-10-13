@@ -1,0 +1,450 @@
+TAP version 13
+# Subtest: x64 seccomp gates ABI, privileged syscalls and namespace creation
+ok 1 - x64 seccomp gates ABI, privileged syscalls and namespace creation
+  ---
+  duration_ms: 1.497083
+  type: 'test'
+  ...
+# Subtest: x64 host mode permits IP TCP/UDP while denying Unix/raw socket routes
+ok 2 - x64 host mode permits IP TCP/UDP while denying Unix/raw socket routes
+  ---
+  duration_ms: 1.220125
+  type: 'test'
+  ...
+# Subtest: arm64 seccomp gates ABI, privileged syscalls and namespace creation
+ok 3 - arm64 seccomp gates ABI, privileged syscalls and namespace creation
+  ---
+  duration_ms: 0.51275
+  type: 'test'
+  ...
+# Subtest: arm64 host mode permits IP TCP/UDP while denying Unix/raw socket routes
+ok 4 - arm64 host mode permits IP TCP/UDP while denying Unix/raw socket routes
+  ---
+  duration_ms: 0.293084
+  type: 'test'
+  ...
+# Subtest: unsupported architecture and network mode fail before execution
+ok 5 - unsupported architecture and network mode fail before execution
+  ---
+  duration_ms: 0.340417
+  type: 'test'
+  ...
+# Subtest: mount order pins protected ancestors and prevents nested allows reopening denials
+ok 6 - mount order pins protected ancestors and prevents nested allows reopening denials
+  ---
+  duration_ms: 4.813125
+  type: 'test'
+  ...
+# Subtest: Seatbelt quotes path metacharacters as a single literal
+ok 7 - Seatbelt quotes path metacharacters as a single literal
+  ---
+  duration_ms: 1.168625
+  type: 'test'
+  ...
+# Subtest: Seatbelt protects canonical and logical paths and their directory ancestors
+ok 8 - Seatbelt protects canonical and logical paths and their directory ancestors
+  ---
+  duration_ms: 0.168958
+  type: 'test'
+  ...
+# Subtest: host networking never grants named UNIX sockets or fcntl escape operations
+ok 9 - host networking never grants named UNIX sockets or fcntl escape operations
+  ---
+  duration_ms: 0.078208
+  type: 'test'
+  ...
+# Subtest: profile generation leaves policy rule lists unchanged
+ok 10 - profile generation leaves policy rule lists unchanged
+  ---
+  duration_ms: 0.192583
+  type: 'test'
+  ...
+# Subtest: macOS backend retains argv boundaries, explicit descriptors, and isolated process group
+ok 11 - macOS backend retains argv boundaries, explicit descriptors, and isolated process group # SKIP
+  ---
+  duration_ms: 0.058917
+  type: 'test'
+  ...
+# Subtest: macOS backend reports unavailable on other operating systems
+ok 12 - macOS backend reports unavailable on other operating systems
+  ---
+  duration_ms: 0.193791
+  type: 'test'
+  ...
+# Subtest: strict JSON rejects ambiguous, malformed, extra and unpaired input
+    # Subtest: duplicate root
+    ok 1 - duplicate root
+      ---
+      duration_ms: 0.742208
+      type: 'test'
+      ...
+    # Subtest: escaped duplicate
+    ok 2 - escaped duplicate
+      ---
+      duration_ms: 0.144875
+      type: 'test'
+      ...
+    # Subtest: duplicate nested
+    ok 3 - duplicate nested
+      ---
+      duration_ms: 0.122
+      type: 'test'
+      ...
+    # Subtest: unknown
+    ok 4 - unknown
+      ---
+      duration_ms: 0.602
+      type: 'test'
+      ...
+    # Subtest: case alias
+    ok 5 - case alias
+      ---
+      duration_ms: 0.135584
+      type: 'test'
+      ...
+    # Subtest: case duplicate
+    ok 6 - case duplicate
+      ---
+      duration_ms: 0.094209
+      type: 'test'
+      ...
+    # Subtest: prototype field
+    ok 7 - prototype field
+      ---
+      duration_ms: 0.106333
+      type: 'test'
+      ...
+    # Subtest: null object
+    ok 8 - null object
+      ---
+      duration_ms: 0.110208
+      type: 'test'
+      ...
+    # Subtest: null list
+    ok 9 - null list
+      ---
+      duration_ms: 0.282833
+      type: 'test'
+      ...
+    # Subtest: null scalar
+    ok 10 - null scalar
+      ---
+      duration_ms: 0.14425
+      type: 'test'
+      ...
+    # Subtest: null rule
+    ok 11 - null rule
+      ---
+      duration_ms: 0.115833
+      type: 'test'
+      ...
+    # Subtest: fractional version
+    ok 12 - fractional version
+      ---
+      duration_ms: 0.061792
+      type: 'test'
+      ...
+    # Subtest: exponent version
+    ok 13 - exponent version
+      ---
+      duration_ms: 0.058958
+      type: 'test'
+      ...
+    # Subtest: overflow version
+    ok 14 - overflow version
+      ---
+      duration_ms: 0.044291
+      type: 'test'
+      ...
+    # Subtest: string version
+    ok 15 - string version
+      ---
+      duration_ms: 0.046458
+      type: 'test'
+      ...
+    # Subtest: leading zero
+    ok 16 - leading zero
+      ---
+      duration_ms: 0.035667
+      type: 'test'
+      ...
+    # Subtest: missing required
+    ok 17 - missing required
+      ---
+      duration_ms: 0.051667
+      type: 'test'
+      ...
+    # Subtest: string array
+    ok 18 - string array
+      ---
+      duration_ms: 0.0845
+      type: 'test'
+      ...
+    # Subtest: wire logical
+    ok 19 - wire logical
+      ---
+      duration_ms: 0.08925
+      type: 'test'
+      ...
+    # Subtest: trailing object
+    ok 20 - trailing object
+      ---
+      duration_ms: 0.038209
+      type: 'test'
+      ...
+    # Subtest: trailing scalar
+    ok 21 - trailing scalar
+      ---
+      duration_ms: 0.039667
+      type: 'test'
+      ...
+    # Subtest: trailing junk
+    ok 22 - trailing junk
+      ---
+      duration_ms: 0.029875
+      type: 'test'
+      ...
+    # Subtest: trailing comma
+    ok 23 - trailing comma
+      ---
+      duration_ms: 0.041791
+      type: 'test'
+      ...
+    # Subtest: root array
+    ok 24 - root array
+      ---
+      duration_ms: 0.0275
+      type: 'test'
+      ...
+    # Subtest: raw high surrogate
+    ok 25 - raw high surrogate
+      ---
+      duration_ms: 0.023167
+      type: 'test'
+      ...
+    # Subtest: raw low surrogate
+    ok 26 - raw low surrogate
+      ---
+      duration_ms: 0.018708
+      type: 'test'
+      ...
+    # Subtest: escaped high surrogate
+    ok 27 - escaped high surrogate
+      ---
+      duration_ms: 0.040292
+      type: 'test'
+      ...
+    # Subtest: escaped low surrogate
+    ok 28 - escaped low surrogate
+      ---
+      duration_ms: 0.053167
+      type: 'test'
+      ...
+    # Subtest: high followed by nonlow
+    ok 29 - high followed by nonlow
+      ---
+      duration_ms: 0.041125
+      type: 'test'
+      ...
+    # Subtest: invalid UTF-8
+    ok 30 - invalid UTF-8
+      ---
+      duration_ms: 0.060125
+      type: 'test'
+      ...
+    # Subtest: UTF-8 BOM
+    ok 31 - UTF-8 BOM
+      ---
+      duration_ms: 0.082208
+      type: 'test'
+      ...
+    # Subtest: oversize whitespace
+    ok 32 - oversize whitespace
+      ---
+      duration_ms: 0.141584
+      type: 'test'
+      ...
+    # Subtest: too deep
+    ok 33 - too deep
+      ---
+      duration_ms: 0.090666
+      type: 'test'
+      ...
+    1..33
+ok 13 - strict JSON rejects ambiguous, malformed, extra and unpaired input
+  ---
+  duration_ms: 5.563834
+  type: 'test'
+  ...
+# Subtest: wire byte limit includes UTF-8 and whitespace exactly
+ok 14 - wire byte limit includes UTF-8 and whitespace exactly
+  ---
+  duration_ms: 3.182167
+  type: 'test'
+  ...
+# Subtest: omitted arrays become frozen arrays and round-trip as valid wire JSON
+ok 15 - omitted arrays become frozen arrays and round-trip as valid wire JSON
+  ---
+  duration_ms: 0.489625
+  type: 'test'
+  ...
+# Subtest: direct object validation rejects getters, unknown fields, inheritance and sparse arrays
+ok 16 - direct object validation rejects getters, unknown fields, inheritance and sparse arrays
+  ---
+  duration_ms: 0.578542
+  type: 'test'
+  ...
+# Subtest: unsupported capability requests fail closed
+ok 17 - unsupported capability requests fail closed
+  ---
+  duration_ms: 0.716208
+  type: 'test'
+  ...
+# Subtest: canonical paths retain logical aliases without mutating input or leaking internal wire fields
+ok 18 - canonical paths retain logical aliases without mutating input or leaking internal wire fields
+  ---
+  duration_ms: 1.437292
+  type: 'test'
+  ...
+# Subtest: paths require existing correctly typed literal objects
+ok 19 - paths require existing correctly typed literal objects
+  ---
+  duration_ms: 1.123292
+  type: 'test'
+  ...
+# Subtest: denial precedence respects filesystem identity and component boundaries
+ok 20 - denial precedence respects filesystem identity and component boundaries
+  ---
+  duration_ms: 0.913833
+  type: 'test'
+  ...
+# Subtest: mutable symlink chains including hidden target hops are rejected
+ok 21 - mutable symlink chains including hidden target hops are rejected
+  ---
+  duration_ms: 0.999708
+  type: 'test'
+  ...
+# Subtest: case-insensitive aliases cannot bypass denial, duplicate or mutable-link checks
+ok 22 - case-insensitive aliases cannot bypass denial, duplicate or mutable-link checks # SKIP requires a case-insensitive filesystem
+  ---
+  duration_ms: 0.237958
+  type: 'test'
+  ...
+# Subtest: dot components are rejected before symlink traversal can change their meaning
+ok 23 - dot components are rejected before symlink traversal can change their meaning
+  ---
+  duration_ms: 0.415083
+  type: 'test'
+  ...
+# Subtest: preexisting hardlinks fail closed for file rules, writable trees and denyRead trees
+ok 24 - preexisting hardlinks fail closed for file rules, writable trees and denyRead trees
+  ---
+  duration_ms: 0.752625
+  type: 'test'
+  ...
+# Subtest: tree audit fails closed on unreadable traversal and closes open directory handles
+ok 25 - tree audit fails closed on unreadable traversal and closes open directory handles
+  ---
+  duration_ms: 0.428833
+  type: 'test'
+  ...
+# Subtest: streaming audit stops at its bound without materializing a giant directory
+ok 26 - streaming audit stops at its bound without materializing a giant directory
+  ---
+  duration_ms: 587.217917
+  type: 'test'
+  ...
+# Subtest: invalid UTF-8 directory names are never silently audited as another file
+ok 27 - invalid UTF-8 directory names are never silently audited as another file
+  ---
+  duration_ms: 0.612834
+  type: 'test'
+  ...
+# Subtest: trusted protection remains additive, immutable and idempotent under writable ancestors
+ok 28 - trusted protection remains additive, immutable and idempotent under writable ancestors
+  ---
+  duration_ms: 0.799292
+  type: 'test'
+  ...
+# Subtest: repeated protection preserves deep original aliases and checks skipped aliases
+ok 29 - repeated protection preserves deep original aliases and checks skipped aliases
+  ---
+  duration_ms: 2.748084
+  type: 'test'
+  ...
+# Subtest: environment selection strips injections, pins PATH and supplies only the private temp
+ok 30 - environment selection strips injections, pins PATH and supplies only the private temp
+  ---
+  duration_ms: 0.463333
+  type: 'test'
+  ...
+# Subtest: unsafe environment values, getters and nonprivate temporary paths are rejected
+ok 31 - unsafe environment values, getters and nonprivate temporary paths are rejected
+  ---
+  duration_ms: 0.962292
+  type: 'test'
+  ...
+# Subtest: pre-aborted API invocation returns its signal result without preparation or side effects
+ok 32 - pre-aborted API invocation returns its signal result without preparation or side effects
+  ---
+  duration_ms: 2.052083
+  type: 'test'
+  ...
+# Subtest: caller identity mismatch blocks API preparation and payload launch
+ok 33 - caller identity mismatch blocks API preparation and payload launch
+  ---
+  duration_ms: 0.326917
+  type: 'test'
+  ...
+# Subtest: deadline already consumed by API entry blocks preparation and payload launch
+ok 34 - deadline already consumed by API entry blocks preparation and payload launch
+  ---
+  duration_ms: 0.281708
+  type: 'test'
+  ...
+# Subtest: invalid and timer-overflow API deadlines fail before any preparation
+ok 35 - invalid and timer-overflow API deadlines fail before any preparation
+  ---
+  duration_ms: 0.475083
+  type: 'test'
+  ...
+# Subtest: communication grant factory refuses invalid indices, unavailable handles and regular files
+ok 36 - communication grant factory refuses invalid indices, unavailable handles and regular files
+  ---
+  duration_ms: 0.506625
+  type: 'test'
+  ...
+# Subtest: API grants require opaque factory objects, reject duplicate targets, and revalidate live identity
+ok 37 - API grants require opaque factory objects, reject duplicate targets, and revalidate live identity
+  ---
+  duration_ms: 14.829542
+  type: 'test'
+  ...
+# Subtest: explicit API communication grant reaches a child and remains owned by the caller
+ok 38 - explicit API communication grant reaches a child and remains owned by the caller
+  ---
+  duration_ms: 24.729291
+  type: 'test'
+  ...
+# Terminated
+# Subtest: API cancellation reaches the payload handler, preserves its exit and cleans private temp
+ok 39 - API cancellation reaches the payload handler, preserves its exit and cleans private temp
+  ---
+  duration_ms: 26.366916
+  type: 'test'
+  ...
+# Subtest: API execution deadline terminates an unresponsive payload and removes private temp
+ok 40 - API execution deadline terminates an unresponsive payload and removes private temp
+  ---
+  duration_ms: 1102.206667
+  type: 'test'
+  ...
+1..40
+# tests 73
+# suites 0
+# pass 71
+# fail 0
+# cancelled 0
+# skipped 2
+# todo 0
+# duration_ms 1204.557959

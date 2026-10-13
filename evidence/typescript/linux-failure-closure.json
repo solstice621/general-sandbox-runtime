@@ -1,0 +1,549 @@
+{
+  "recorded_at_utc": "2026-10-13T17:35:12.084866+00:00",
+  "runtime_identity": {
+    "kind": "typescript-node-deployment-v1",
+    "runtime_root": "/opt/sandbox-runtime",
+    "launcher": "/opt/sandbox-runtime/bin/sandbox-runner",
+    "node_executable": "/usr/local/bin/node",
+    "closure_sha256": "fe1cf367542f17ca10a7d8a7495c25e4b3fa5725d5f5613afa7a1d403dd1d60d",
+    "artifacts": [
+      {
+        "role": "deployed",
+        "artifact": "dist/adapters/dsh/path-trust.d.ts",
+        "path": "/opt/sandbox-runtime/dist/adapters/dsh/path-trust.d.ts",
+        "sha256": "0b0e1eb40164b3ee23b7595a92c0bfb7a57677f4fd1bce2d08e06f7be5d15852",
+        "size": 536,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/adapters/dsh/path-trust.js",
+        "path": "/opt/sandbox-runtime/dist/adapters/dsh/path-trust.js",
+        "sha256": "bee60708c6948a896e1a0af62437d455132e5563b45f9cb197bb426bf074a99b",
+        "size": 2210,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/adapters/dsh/path-trust.js.map",
+        "path": "/opt/sandbox-runtime/dist/adapters/dsh/path-trust.js.map",
+        "sha256": "35474431d004b7ef4ee20fcdd998e4f060cfad37cd869d8b2a7b6252bffaf6c4",
+        "size": 2037,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/adapters/dsh/plugin.d.ts",
+        "path": "/opt/sandbox-runtime/dist/adapters/dsh/plugin.d.ts",
+        "sha256": "352b7ea39ac1b36e495b2211afb7359a663f6ebffe6c24c9c7426e0c47f90835",
+        "size": 984,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/adapters/dsh/plugin.js",
+        "path": "/opt/sandbox-runtime/dist/adapters/dsh/plugin.js",
+        "sha256": "a175f10dd75e87f077f9769a5bfa7a36eab2b18cc3f2be9acf70ff8a7b4c2da5",
+        "size": 8245,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/adapters/dsh/plugin.js.map",
+        "path": "/opt/sandbox-runtime/dist/adapters/dsh/plugin.js.map",
+        "sha256": "f5d67bcc731c3f7bbc7725e5f767b4be9c2cfba731c8a74aa888bff6d43604fd",
+        "size": 6073,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/adapters/dsh/provider.d.ts",
+        "path": "/opt/sandbox-runtime/dist/adapters/dsh/provider.d.ts",
+        "sha256": "ed9a15bbf6edb3073eddb6bddbe88485c22650f0e983b41044805111969203ca",
+        "size": 1498,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/adapters/dsh/provider.js",
+        "path": "/opt/sandbox-runtime/dist/adapters/dsh/provider.js",
+        "sha256": "fcc9f0c5dd8a36de9b99338e41206a15afcb62d9fbdd548728fe872c85aa142c",
+        "size": 9127,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/adapters/dsh/provider.js.map",
+        "path": "/opt/sandbox-runtime/dist/adapters/dsh/provider.js.map",
+        "sha256": "66fc530464a9a477871532d2030dd15539a55a2a72ab34459d5b1533ef48c42e",
+        "size": 8439,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/scripts/build.d.ts",
+        "path": "/opt/sandbox-runtime/dist/scripts/build.d.ts",
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+        "size": 11,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/scripts/build.js",
+        "path": "/opt/sandbox-runtime/dist/scripts/build.js",
+        "sha256": "daa89003cd105a41a3180533a25905d0faa0872669a4ba093e49c83b60dd7604",
+        "size": 1375,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/scripts/build.js.map",
+        "path": "/opt/sandbox-runtime/dist/scripts/build.js.map",
+        "sha256": "6b498226764f7aef820fdfd74bd51b9171ee2c50aa07b4b978dfe73f56c32a9b",
+        "size": 1760,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/backend-types.d.ts",
+        "path": "/opt/sandbox-runtime/dist/src/backend-types.d.ts",
+        "sha256": "b472af3ba71dfb39d4828ff4372dc19a87f49ccbf58abd02a6d16fda3620bc12",
+        "size": 645,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/backend-types.js",
+        "path": "/opt/sandbox-runtime/dist/src/backend-types.js",
+        "sha256": "cb9a1d56f861b1c249713b5d89eaab02745dee857bededa96b64241af743e722",
+        "size": 52,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/backend-types.js.map",
+        "path": "/opt/sandbox-runtime/dist/src/backend-types.js.map",
+        "sha256": "d2d33fba4bcb22f2b05a1b706f6107149ad22c9e4b06233f7bd703f156baea98",
+        "size": 121,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/backends/linux-supervisor.d.ts",
+        "path": "/opt/sandbox-runtime/dist/src/backends/linux-supervisor.d.ts",
+        "sha256": "1c000b11f4dd532f631981b07c923ee61c316777966596e331c0a74498bef3f9",
+        "size": 482,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/backends/linux-supervisor.js",
+        "path": "/opt/sandbox-runtime/dist/src/backends/linux-supervisor.js",
+        "sha256": "6cdcf64169f00972937a22b79697684ae7bc402a1933c66f659d3f42fa1daa18",
+        "size": 8176,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/backends/linux-supervisor.js.map",
+        "path": "/opt/sandbox-runtime/dist/src/backends/linux-supervisor.js.map",
+        "sha256": "be2bb5fc6a9142dec72abe7e1f0d0a619dc1999f4d511c41594d702f2395e8df",
+        "size": 8420,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/backends/linux.d.ts",
+        "path": "/opt/sandbox-runtime/dist/src/backends/linux.d.ts",
+        "sha256": "2c21f86a7e8ebbc65a64498c3cb978695bef730c385e8495655d309179459b11",
+        "size": 922,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/backends/linux.js",
+        "path": "/opt/sandbox-runtime/dist/src/backends/linux.js",
+        "sha256": "f73ca5a23a081809e1730804a80bc86a7b82b86d428a40e04d677cc15fc68537",
+        "size": 7645,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/backends/linux.js.map",
+        "path": "/opt/sandbox-runtime/dist/src/backends/linux.js.map",
+        "sha256": "6a7f5718d79f8f12d2056c15440ad39f06aced84049db14a14d2d7df5292f3d1",
+        "size": 8014,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/backends/macos.d.ts",
+        "path": "/opt/sandbox-runtime/dist/src/backends/macos.d.ts",
+        "sha256": "1dce8cf2bf3c68f5f5e1fea09fa449abb07ff36d0d7d2c97c8a9a7cfb500aab2",
+        "size": 486,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/backends/macos.js",
+        "path": "/opt/sandbox-runtime/dist/src/backends/macos.js",
+        "sha256": "0da553178a09d3e1cdad8ad8fb46775a809ede454fae69a31b894b496fa7039d",
+        "size": 4318,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/backends/macos.js.map",
+        "path": "/opt/sandbox-runtime/dist/src/backends/macos.js.map",
+        "sha256": "a31b47cb4cd092d0c413302da7b05ae3b38dacd1657be7837fa0ce862e826155",
+        "size": 3574,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/backends/seccomp.d.ts",
+        "path": "/opt/sandbox-runtime/dist/src/backends/seccomp.d.ts",
+        "sha256": "6ccc55ac36139a75bb587ac9ac1d7c211dd997a62115de449172394063aa4944",
+        "size": 795,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/backends/seccomp.js",
+        "path": "/opt/sandbox-runtime/dist/src/backends/seccomp.js",
+        "sha256": "6ee68dd59363c3fa087c9bafc757b7f523ada6764906ec4e5f28e15f911a6d9e",
+        "size": 3530,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/backends/seccomp.js.map",
+        "path": "/opt/sandbox-runtime/dist/src/backends/seccomp.js.map",
+        "sha256": "81ae0f21d42ee43b2e8a8f3e7ea6fdf406cb68dd586ded314769752b3204cef5",
+        "size": 5642,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/cli.d.ts",
+        "path": "/opt/sandbox-runtime/dist/src/cli.d.ts",
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+        "size": 11,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/cli.js",
+        "path": "/opt/sandbox-runtime/dist/src/cli.js",
+        "sha256": "6570f71f6f1f98e3e2b4b6d887931f6cd99d9ead7cfba7f7a36196cff8714824",
+        "size": 6796,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/cli.js.map",
+        "path": "/opt/sandbox-runtime/dist/src/cli.js.map",
+        "sha256": "636fd1e6b9f85d37ee2e704773e56f8c9294d38d865e7caf493113b7b525736e",
+        "size": 7695,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/index.d.ts",
+        "path": "/opt/sandbox-runtime/dist/src/index.d.ts",
+        "sha256": "d8f1f9941890fac330fab5e77f7fa7dabe3d76d766c0ba0f6545a335e1e6e361",
+        "size": 249,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/index.js",
+        "path": "/opt/sandbox-runtime/dist/src/index.js",
+        "sha256": "7c975746d8e0e8511f83208cf95c93488a7ad5ae6c408d8b4d03f514fe5f6da4",
+        "size": 185,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/index.js.map",
+        "path": "/opt/sandbox-runtime/dist/src/index.js.map",
+        "sha256": "008444ffa047379da5f1fe3f8b36ec488993a49037b616138c1255915d2c379c",
+        "size": 239,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/policy.d.ts",
+        "path": "/opt/sandbox-runtime/dist/src/policy.d.ts",
+        "sha256": "662366bcae37ecc46dddc025eb3496b88769011a7ddd25d6cc4b1f2c4b661d08",
+        "size": 2000,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/policy.js",
+        "path": "/opt/sandbox-runtime/dist/src/policy.js",
+        "sha256": "38dc437849194bf348328a20ee930a7fd93c62ccd0e5f7bc3d93afcaff7ac891",
+        "size": 26343,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/policy.js.map",
+        "path": "/opt/sandbox-runtime/dist/src/policy.js.map",
+        "sha256": "afa9d5be8fc2a6fa1ba983e4e0f3f4bb4c754d47792210d104fcc0f121f3ef23",
+        "size": 26419,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/runner.d.ts",
+        "path": "/opt/sandbox-runtime/dist/src/runner.d.ts",
+        "sha256": "c955bf25d805244588de5b7054469d45e15d232dc8d6cbdc1b88f9d9bffd180b",
+        "size": 1526,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/runner.js",
+        "path": "/opt/sandbox-runtime/dist/src/runner.js",
+        "sha256": "f2c1e0fa2ff4c1b2c8bddcb9234c645e5baca63d48c9a571200110ba1d25ac9f",
+        "size": 15138,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/src/runner.js.map",
+        "path": "/opt/sandbox-runtime/dist/src/runner.js.map",
+        "sha256": "29fd1c440b54f4295b38f1c038282bae5bd3859859d0fc3aefcf0bee719953d6",
+        "size": 15393,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/test/linux.test.d.ts",
+        "path": "/opt/sandbox-runtime/dist/test/linux.test.d.ts",
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+        "size": 11,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/test/linux.test.js",
+        "path": "/opt/sandbox-runtime/dist/test/linux.test.js",
+        "sha256": "a35d59e9bcc9cf5cc4f103c2e811d5fe394c66b171ea0446ff86cd5165e27d17",
+        "size": 5000,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/test/linux.test.js.map",
+        "path": "/opt/sandbox-runtime/dist/test/linux.test.js.map",
+        "sha256": "788d46bac8f9ade49451319df1addda2f0daa5e944930641864ab28fceff468f",
+        "size": 5999,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/test/macos.test.d.ts",
+        "path": "/opt/sandbox-runtime/dist/test/macos.test.d.ts",
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+        "size": 11,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/test/macos.test.js",
+        "path": "/opt/sandbox-runtime/dist/test/macos.test.js",
+        "sha256": "0b20ad8f44296f4687c0b4fcbb0cb5154ce80f925aef97cd5bf8437fd5b1add2",
+        "size": 5349,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/test/macos.test.js.map",
+        "path": "/opt/sandbox-runtime/dist/test/macos.test.js.map",
+        "sha256": "566c030a76fcd835b82d14f2d2bafd639f0ec1b9dcc403422e00b229d9db30d1",
+        "size": 5308,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/test/policy.test.d.ts",
+        "path": "/opt/sandbox-runtime/dist/test/policy.test.d.ts",
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+        "size": 11,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/test/policy.test.js",
+        "path": "/opt/sandbox-runtime/dist/test/policy.test.js",
+        "sha256": "48201e68620bf615d4c17f29214641e471a16bc25ef6aead96f59cf460bd454e",
+        "size": 20387,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/test/policy.test.js.map",
+        "path": "/opt/sandbox-runtime/dist/test/policy.test.js.map",
+        "sha256": "c05580c5079e2470646dd767c5bea38f5dde4030b4b3a14f313d71b23412e14e",
+        "size": 22973,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/test/runner.test.d.ts",
+        "path": "/opt/sandbox-runtime/dist/test/runner.test.d.ts",
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+        "size": 11,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/test/runner.test.js",
+        "path": "/opt/sandbox-runtime/dist/test/runner.test.js",
+        "sha256": "6ed8cad05c8d490e5d39494a52651250f4c5eb0d02587d20c546c05a13febe2c",
+        "size": 9070,
+        "mode": "0o644"
+      },
+      {
+        "role": "deployed",
+        "artifact": "dist/test/runner.test.js.map",
+        "path": "/opt/sandbox-runtime/dist/test/runner.test.js.map",
+        "sha256": "4739f1f2f0edb34af63c95b123ecd7ad354aec1f7222898cf97a30a60ef5e065",
+        "size": 11064,
+        "mode": "0o644"
+      },
+      {
+        "role": "launcher",
+        "artifact": "bin/sandbox-runner",
+        "path": "/opt/sandbox-runtime/bin/sandbox-runner",
+        "sha256": "9ffea3cf32f776e7b2f23e6c673fce716a26f0a192dc824517453f1c2ff6f66a",
+        "size": 2956,
+        "mode": "0o755"
+      },
+      {
+        "role": "metadata",
+        "artifact": "package.json",
+        "path": "/opt/sandbox-runtime/package.json",
+        "sha256": "524fb0baea359bb18475be7140da2772f3def2a5fffbc41a11dc402b6258497e",
+        "size": 1274,
+        "mode": "0o644"
+      },
+      {
+        "role": "node",
+        "artifact": "node-executable",
+        "path": "/usr/local/bin/node",
+        "sha256": "3e53e5ff5eaa922f1b4308312d50da9091db62d40b87716ad36c60b347e7f984",
+        "size": 122077656,
+        "mode": "0o755"
+      }
+    ],
+    "hash_scope": "launcher, canonical Node executable, package.json and every regular file under dist; includes test/build metadata if deployed"
+  },
+  "helper_sha256": "ff5add553bea12a45c18ebe6c67d3ed637052b869a1ca2fc5d74a6a2e8c5cce6",
+  "checks": [
+    {
+      "name": "missing-helper",
+      "observations": [
+        {
+          "action": "check",
+          "exit_code": 125,
+          "stdout": "",
+          "stderr": "sandbox-runtime: BACKEND_UNAVAILABLE: trusted /usr/bin/bwrap is missing\n",
+          "payload_marker_exists": false
+        },
+        {
+          "action": "run",
+          "exit_code": 125,
+          "stdout": "",
+          "stderr": "sandbox-runtime: BACKEND_UNAVAILABLE: trusted /usr/bin/bwrap is missing\n",
+          "payload_marker_exists": false
+        }
+      ],
+      "helper_restored_and_identical": true
+    },
+    {
+      "name": "actual-proc-mount-denial",
+      "observations": [
+        {
+          "action": "check",
+          "exit_code": 0,
+          "stdout": "{\"ok\":true,\"platform\":\"linux\",\"network\":\"deny\",\"version\":1,\"scope\":\"preflight; run rechecks and applies OS isolation\"}\n",
+          "stderr": "",
+          "payload_marker_exists": false
+        },
+        {
+          "action": "run",
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "bwrap: Can't mount proc on /newroot/proc: Operation not permitted\n",
+          "payload_marker_exists": false
+        }
+      ]
+    }
+  ],
+  "payload_effect_absent_in_both": true,
+  "fixtures": [
+    {
+      "name": "/sandbox-runtime-ts-linux",
+      "id": "53dda8fb1407f7de42e6a72f71ee598b4b2591422d0aba90c57c1dc7f57e71b4",
+      "image": "sha256:eae677c4b4cf3669522e2721e11a1527e1a56ca63b67963c73bb51555b55778b",
+      "capAdd": [
+        "CAP_SYS_ADMIN"
+      ],
+      "securityOpt": [
+        "seccomp=unconfined"
+      ],
+      "maskedPaths": [],
+      "readonlyPaths": [],
+      "mounts": [
+        {
+          "type": "volume",
+          "destination": "/data",
+          "name": "45f07a9b6db14e3d06fb6dd366ba151e0a0cb6c6090de4dfacc4fefc8fc4a0dc"
+        }
+      ]
+    },
+    {
+      "name": "/sandbox-runtime-ts-linux-blocked",
+      "id": "05f80fc7bfe05f5e6f0c729fcf88c1b1a951cf3a342d7690c3f51fede4c9a198",
+      "image": "sha256:d83d11918ec8546f46dd8b059fe93ec4c54605a9ba2c6d9930436642478ec0ef",
+      "capAdd": [
+        "CAP_SYS_ADMIN"
+      ],
+      "securityOpt": [
+        "seccomp=unconfined"
+      ],
+      "maskedPaths": [
+        "/proc/asound",
+        "/proc/acpi",
+        "/proc/interrupts",
+        "/proc/kcore",
+        "/proc/keys",
+        "/proc/latency_stats",
+        "/proc/timer_list",
+        "/proc/timer_stats",
+        "/proc/sched_debug",
+        "/proc/scsi",
+        "/sys/firmware",
+        "/sys/devices/virtual/powercap"
+      ],
+      "readonlyPaths": [
+        "/proc/bus",
+        "/proc/fs",
+        "/proc/irq",
+        "/proc/sys",
+        "/proc/sysrq-trigger"
+      ],
+      "mounts": [
+        {
+          "type": "volume",
+          "destination": "/data",
+          "name": "03de1e7db88f74c6e532d0e15de48b1989c9b2c80c7c03f0312d0b6a3b9c2e69"
+        }
+      ]
+    }
+  ]
+}

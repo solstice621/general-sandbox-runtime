@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sandboxruntime:policy:1",
+  "title": "Sandbox Runtime policy v1",
+  "description": "The complete effective policy supplied by a trusted caller. Schema validation checks document structure, not runtime feasibility or isolation.",
+  "$comment": "Runtime parsing additionally limits the original UTF-8 document to 65536 bytes, rejects duplicate object keys, trailing documents, unpaired Unicode surrogates and nonliteral version tokens such as 1.0/1e0. Runtime filesystem checks and backend capability checks are mandatory; see README.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "filesystem", "network", "ipc", "environment"],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1,
+      "description": "Wire representation must be the integer token 1."
+    },
+    "filesystem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["read", "temp"],
+      "properties": {
+        "read": {
+          "type": "string",
+          "const": "host",
+          "description": "Retain the host user's read access, except the explicit denyRead rules. This is not a workspace read allowlist."
+        },
+        "denyRead": {
+          "$ref": "#/$defs/rules",
+          "description": "Deny content access and modification. Omission means an empty list."
+        },
+        "allowWrite": {
+          "$ref": "#/$defs/rules",
+          "description": "Grant writes to these paths subject to all denials. Omission means an empty list."
+        },
+        "denyWrite": {
+          "$ref": "#/$defs/rules",
+          "description": "Write denials override a broader allowWrite ancestor. An allowWrite at or beneath a denial is rejected. Omission means an empty list."
+        },
+        "temp": {
+          "type": "string",
+          "enum": ["none", "private"],
+          "description": "private allocates a unique writable directory per run; it does not provide cross-task confidentiality under host-read."
+        }
+      }
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["deny", "host"]
+        }
+      }
+    },
+    "ipc": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hostUnixSockets"],
+      "properties": {
+        "hostUnixSockets": {
+          "type": "string",
+          "const": "deny",
+          "description": "Host named Unix socket endpoints remain forbidden in both network modes."
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "inherit": {
+          "type": "array",
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["PATH", "HOME", "LANG", "LC_ALL", "TZ", "TERM"]
+          },
+          "description": "Select validated host values. PATH is always the fixed system path, even when omitted. Omission means no other host values are selected. Arbitrary environment overrides are unsupported."
+        }
+      }
+    }
+  },
+  "$defs": {
+    "rules": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/rule"},
+      "$comment": "Runtime also rejects equivalent rules expressed through symlink, case-insensitive, or other filesystem aliases. No separate rule-count quota is imposed beyond the document byte limit."
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "scope"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 65536,
+          "allOf": [
+            {"pattern": "^/"},
+            {"not": {"pattern": "[\\u0000-\\u001F\\u007F-\\u009F*?\\[\\]]"}},
+            {"not": {"pattern": "(^|/)\\.{1,2}(/|$)"}}
+          ],
+          "description": "An existing absolute Unix literal path, with no control characters, glob syntax, or dot/dot-dot components. Runtime verifies file kind, resolves symlinks and checks filesystem identities. The entire encoded policy must fit within 65536 bytes."
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["file", "tree"],
+          "description": "file requires a regular file; tree requires a directory and applies to that object and its descendants."
+        }
+      }
+    }
+  }
+}

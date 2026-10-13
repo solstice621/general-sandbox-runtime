@@ -1,0 +1,10 @@
+/bin/
+/dist/
+/node_modules/
+*.tsbuildinfo
+npm-debug.log*
+__pycache__/
+*.pyc
+/test-results/local-*.json
+/test-results/ts-local-*.json
+/work/

@@ -1,0 +1,76 @@
+{
+  "status": "final frozen TypeScript build: macOS and Linux passed",
+  "recordedAt": "2026-10-13T17:33:37.703214+00:00",
+  "localDate": "2026-10-14",
+  "implementation": "TypeScript 0.2.0; no Go runtime dependency",
+  "dshCommit": "d743267388641bc76f17c45ce8b4c231aed1d32c",
+  "sourceArchiveSHA256": "414db357dda081d11d531ea3e9969f48fa0502809ff579396c3c2bbf7e109253",
+  "previousEvidence": "Go 0.1.0 and TypeScript discovery results retired; only final frozen TypeScript runs are summarized here.",
+  "macOS": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "node": "v24.19.0",
+    "nodePath": "/opt/homebrew/Cellar/node@24/24.19.0/bin/node",
+    "nodeSHA256": "c8eedc7651a438fb7d2ceb36fd70032676c855586a36c950ba5a662f0b7853bd",
+    "passed": 25,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 5163.865292,
+    "evidence": "test/final-macos.tap",
+    "groups": {
+      "providerAndTrustBoundary": 8,
+      "executorAndFileIsolation": 10,
+      "registeredToolsAndPermissions": 7
+    },
+    "caseAliasRegression": "executed on case-insensitive filesystem",
+    "loaderInjectionRegression": "hostile NODE_OPTIONS preload marker never executed",
+    "manifest": "test/final-macos.json",
+    "launcherSHA256": "b6fd31956a5867d1f8a2156ebb8108bd0399d1e58744f3138bdfd289fe54266f"
+  },
+  "fixtureBoundary": [
+    "Agent identity, session event storage, and working-directory collaborator use structural in-memory fixtures.",
+    "Real approval service receives simulated allowed-once/rejected answers through its registered approval event.",
+    "Actual tool registry, Bash tool, job tools, policy resolver and session projections, shell environment, executor and subprocess run unchanged.",
+    "No LLM or human approval UI is exercised."
+  ],
+  "notSupported": [
+    "PTC",
+    "persistent PTY"
+  ],
+  "notes": [
+    "Shared runtime Policy/Rule and validatePolicy supply the adapter policy schema, canonicalization and immutable snapshots.",
+    "Strict NodeNext build uses explicit pinned peer declarations; unchanged original DSH sources are transpiled with TypeScript5.9.3 and Zod4.4.3 in tests.",
+    "No user-installed DSH changes or automatic unconfined fallback.",
+    "A failure stderr never establishes that no payload executed; runnerFailureRules stays empty.",
+    "Source/build closure manifests include runtime code, compiled adapter, launcher, Node executable and exercised test sources."
+  ],
+  "linux": {
+    "platform": "Debian12 aarch64; kernel6.10.14-linuxkit (Docker Desktop VM); glibc2.36",
+    "uid": 1000,
+    "user": "sandboxuser",
+    "node": "v24.19.0",
+    "nodePath": "/usr/local/bin/node",
+    "nodeSHA256": "3e53e5ff5eaa922f1b4308312d50da9091db62d40b87716ad36c60b347e7f984",
+    "bubblewrap": "0.8.0",
+    "launcherSHA256": "9ffea3cf32f776e7b2f23e6c673fce716a26f0a192dc824517453f1c2ff6f66a",
+    "closureSHA256": "fe1cf367542f17ca10a7d8a7495c25e4b3fa5725d5f5613afa7a1d403dd1d60d",
+    "passed": 25,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 4230.547419,
+    "evidence": "../../evidence/typescript/dsh-linux.tap",
+    "manifest": "../../evidence/typescript/linux-acceptance.json#runtime_identity",
+    "groups": {
+      "providerAndTrustBoundary": 8,
+      "executorAndFileIsolation": 10,
+      "registeredToolsAndPermissions": 7
+    },
+    "scopeLimitation": "Upstream DSH optional native systemd/cgroup helper was not validated; no native cgroup containment claim. Runtime PID namespace isolation and lifecycle are independent.",
+    "caseAliasRegression": "case-sensitive filesystem; real symlink/inode-identity containment executed; distinct uppercase spelling has no alias",
+    "loaderInjectionRegression": "hostile NODE_OPTIONS preload marker never executed"
+  },
+  "sharedArtifactComparison": {
+    "matchedCompiledRuntimeAdapterAndPackageArtifacts": 37,
+    "different": 0,
+    "note": "Platform launchers and Node binaries differ by deployment; shared compiled runtime/adapter/package files match byte for byte."
+  }
+}

@@ -1,0 +1,578 @@
+{
+  "platform": "Darwin",
+  "node": "v24.19.0",
+  "passed": 60,
+  "cases": [
+    {
+      "name": "absent-source-3",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-4",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-5",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-6",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-7",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-8",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-9",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-10",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-11",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-12",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-13",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-14",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-15",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-16",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-17",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-18",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-19",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-20",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-21",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-22",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-23",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-24",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-25",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-26",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-27",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-28",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-29",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-30",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-31",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-32",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-192",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "absent-source-1024",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "bad-source-",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: invalid FD grant: expected source:target"
+    },
+    {
+      "name": "bad-source-:7",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source must be canonical decimal 3..1024"
+    },
+    {
+      "name": "bad-source-2:7",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source must be canonical decimal 3..1024"
+    },
+    {
+      "name": "bad-source-0:7",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source must be canonical decimal 3..1024"
+    },
+    {
+      "name": "bad-source-03:7",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source must be canonical decimal 3..1024"
+    },
+    {
+      "name": "bad-source-+3:7",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source must be canonical decimal 3..1024"
+    },
+    {
+      "name": "bad-source-3x:7",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source must be canonical decimal 3..1024"
+    },
+    {
+      "name": "bad-source-3/../4:7",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source must be canonical decimal 3..1024"
+    },
+    {
+      "name": "bad-source-1025:7",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source must be canonical decimal 3..1024"
+    },
+    {
+      "name": "bad-source-99999999999999999999999:7",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source must be canonical decimal 3..1024"
+    },
+    {
+      "name": "bad-source-3",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: invalid FD grant: expected source:target"
+    },
+    {
+      "name": "missing-value",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: missing FD grant value"
+    },
+    {
+      "name": "untrusted-manifest-reset",
+      "status": 0,
+      "stderr": "",
+      "observed": {
+        "args": [
+          "run",
+          "--",
+          "payload"
+        ],
+        "snapshot": "",
+        "nodeOptions": null,
+        "nodePath": null,
+        "sources": []
+      },
+      "callerIdentities": {}
+    },
+    {
+      "name": "delimiter-not-parsed",
+      "status": 0,
+      "stderr": "",
+      "observed": {
+        "args": [
+          "run",
+          "--",
+          "payload",
+          "--grant-fd",
+          "3:7"
+        ],
+        "snapshot": "",
+        "nodeOptions": null,
+        "nodePath": null,
+        "sources": []
+      },
+      "callerIdentities": {}
+    },
+    {
+      "name": "policy-value-not-parsed",
+      "status": 0,
+      "stderr": "",
+      "observed": {
+        "args": [
+          "run",
+          "--policy-json",
+          "--grant-fd=3:7",
+          "--",
+          "payload"
+        ],
+        "snapshot": "",
+        "nodeOptions": null,
+        "nodePath": null,
+        "sources": []
+      },
+      "callerIdentities": {}
+    },
+    {
+      "name": "timeout-value-not-parsed",
+      "status": 0,
+      "stderr": "",
+      "observed": {
+        "args": [
+          "run",
+          "--timeout",
+          "--grant-fd=3:7",
+          "--",
+          "payload"
+        ],
+        "snapshot": "",
+        "nodeOptions": null,
+        "nodePath": null,
+        "sources": []
+      },
+      "callerIdentities": {}
+    },
+    {
+      "name": "implicit-payload-boundary",
+      "status": 0,
+      "stderr": "",
+      "observed": {
+        "args": [
+          "run",
+          "--policy-json",
+          "{}",
+          "payload",
+          "--grant-fd",
+          "3:7"
+        ],
+        "snapshot": "",
+        "nodeOptions": null,
+        "nodePath": null,
+        "sources": []
+      },
+      "callerIdentities": {}
+    },
+    {
+      "name": "socket-preserved",
+      "status": 0,
+      "stderr": "",
+      "observed": {
+        "args": [
+          "run",
+          "--grant-fd",
+          "3:7",
+          "--",
+          "payload"
+        ],
+        "snapshot": "3",
+        "nodeOptions": null,
+        "nodePath": null,
+        "sources": [
+          {
+            "fd": "3",
+            "dev": "18446744073709551615",
+            "ino": "589230",
+            "type": "socket"
+          }
+        ]
+      },
+      "callerIdentities": {
+        "3": {
+          "dev": "18446744073709551615",
+          "ino": "589230"
+        }
+      }
+    },
+    {
+      "name": "pipe-preserved",
+      "status": 0,
+      "stderr": "",
+      "observed": {
+        "args": [
+          "run",
+          "--grant-fd=5:8",
+          "--",
+          "payload"
+        ],
+        "snapshot": "5",
+        "nodeOptions": null,
+        "nodePath": null,
+        "sources": [
+          {
+            "fd": "5",
+            "dev": "0",
+            "ino": "12242444476803999125",
+            "type": "pipe"
+          }
+        ]
+      },
+      "callerIdentities": {
+        "5": {
+          "dev": "0",
+          "ino": "12242444476803999125"
+        }
+      }
+    },
+    {
+      "name": "high-pipe-preserved",
+      "status": 0,
+      "stderr": "",
+      "observed": {
+        "args": [
+          "run",
+          "--grant-fd",
+          "192:9",
+          "--",
+          "payload"
+        ],
+        "snapshot": "192",
+        "nodeOptions": null,
+        "nodePath": null,
+        "sources": [
+          {
+            "fd": "192",
+            "dev": "0",
+            "ino": "12242444476803999125",
+            "type": "pipe"
+          }
+        ]
+      },
+      "callerIdentities": {
+        "192": {
+          "dev": "0",
+          "ino": "12242444476803999125"
+        }
+      }
+    },
+    {
+      "name": "all-preserved",
+      "status": 0,
+      "stderr": "",
+      "observed": {
+        "args": [
+          "run",
+          "--grant-fd",
+          "3:7",
+          "--grant-fd=5:8",
+          "--grant-fd",
+          "192:9",
+          "--",
+          "payload"
+        ],
+        "snapshot": "3,5,192",
+        "nodeOptions": null,
+        "nodePath": null,
+        "sources": [
+          {
+            "fd": "3",
+            "dev": "18446744073709551615",
+            "ino": "589230",
+            "type": "socket"
+          },
+          {
+            "fd": "5",
+            "dev": "0",
+            "ino": "12242444476803999125",
+            "type": "pipe"
+          },
+          {
+            "fd": "192",
+            "dev": "0",
+            "ino": "12242444476803999125",
+            "type": "pipe"
+          }
+        ]
+      },
+      "callerIdentities": {
+        "3": {
+          "dev": "18446744073709551615",
+          "ino": "589230"
+        },
+        "5": {
+          "dev": "0",
+          "ino": "12242444476803999125"
+        },
+        "192": {
+          "dev": "0",
+          "ino": "12242444476803999125"
+        }
+      }
+    },
+    {
+      "name": "later-invalid-source",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "regular-file-rejected",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "directory-rejected",
+      "status": 125,
+      "stderr": "sandbox-runtime: INVALID_POLICY: FD grant source is unavailable or is not a pipe/socket"
+    },
+    {
+      "name": "external-absolute-link",
+      "status": 0,
+      "stderr": "",
+      "observed": {
+        "args": [
+          "run",
+          "--",
+          "payload"
+        ],
+        "snapshot": "",
+        "nodeOptions": null,
+        "nodePath": null,
+        "sources": []
+      },
+      "callerIdentities": {}
+    },
+    {
+      "name": "external-relative-link",
+      "status": 0,
+      "stderr": "",
+      "observed": {
+        "args": [
+          "run",
+          "--grant-fd",
+          "3:7",
+          "--",
+          "payload"
+        ],
+        "snapshot": "3",
+        "nodeOptions": null,
+        "nodePath": null,
+        "sources": [
+          {
+            "fd": "3",
+            "dev": "18446744073709551615",
+            "ino": "589230",
+            "type": "socket"
+          }
+        ]
+      },
+      "callerIdentities": {
+        "3": {
+          "dev": "18446744073709551615",
+          "ino": "589230"
+        }
+      }
+    },
+    {
+      "name": "external-link-chain",
+      "status": 0,
+      "stderr": "",
+      "observed": {
+        "args": [
+          "run",
+          "--grant-fd",
+          "192:9",
+          "--",
+          "payload"
+        ],
+        "snapshot": "192",
+        "nodeOptions": null,
+        "nodePath": null,
+        "sources": [
+          {
+            "fd": "192",
+            "dev": "0",
+            "ino": "12242444476803999125",
+            "type": "pipe"
+          }
+        ]
+      },
+      "callerIdentities": {
+        "192": {
+          "dev": "0",
+          "ino": "12242444476803999125"
+        }
+      }
+    },
+    {
+      "name": "external-path-lookup",
+      "status": 0,
+      "stderr": "",
+      "observed": {
+        "args": [
+          "run",
+          "--",
+          "payload"
+        ],
+        "snapshot": "",
+        "nodeOptions": null,
+        "nodePath": null,
+        "sources": []
+      },
+      "callerIdentities": {}
+    }
+  ]
+}

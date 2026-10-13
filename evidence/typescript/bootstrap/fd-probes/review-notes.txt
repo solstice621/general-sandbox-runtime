@@ -1,0 +1,59 @@
+FD BOOTSTRAP REVIEW — Node 24.19.0 / macOS + Debian Linux
+
+Decision
+- Keep production runtime logic in TypeScript.
+- Tiny /bin/sh CLI entry validates all requested communication source descriptors before Node starts.
+- Do not create a Go or custom C launcher.
+- On Linux, explicitly remap every nongranted descriptor through the highest observed open FD to an owned /dev/null FD in the child stdio array. This preserves caller resources while preventing ambient inheritance, even across sparse FD gaps.
+
+Template
+../launcher-template.sh (root coordinator owns promotion into production).
+Build replaces __NODE__ with a shell-quoted absolute Node path.
+Template targets runtime_root/dist/src/cli.js.
+SANDBOX_RUNTIME_SOURCE_SNAPSHOT is overwritten, exported as comma-separated source numbers.
+No subprocesses, substitutions, pipes, or file-opening redirections occur before all source tests finish.
+Both --grant-fd VALUE and --grant-fd=VALUE are recognized before -- or the first payload positional argument, matching CLI parsing.
+Values of --policy-file, --policy-json, --timeout, --grace are skipped.
+Only canonical source decimal 3..1024 is accepted; target and complete CLI validation remain TS.
+Only shell builtin -p/-S checks accept communication handles. Regular files/directories and absent sources fail with125.
+NODE_OPTIONS and NODE_PATH are unset before Node startup.
+
+Demonstrated evidence
+- template-macos.json: 60 cases passed, Node24.19.0.
+- template-linux.json: same60 cases passed in isolated Debian fixture.
+- Cases include absentFD3..32/192/1024, malformed sources, incoming spoofed snapshot, Nodepreload variables, flag parsing, and multi-source validation.
+- Valid socket3, pipe5, and pipe192 retain caller device/inode identities across shell -> Node. Bigints normalized to unsigned64 solely for cross-language comparison.
+- node-async-spawn-macos.json: async detached Node spawn closes unapproved secret file FD3/192, socket4, pipe6; child has only stdio. Parent sources retained.
+- linux-stdio-coverage.json: actual Linux baseline stdio length65 with 'ignore' holes and explicit socket grant64 LEAKS secretFD25 and192. Numeric /dev/null coverage through observed192 prevents both leaks, preserves 'grant-ok' socket communication, leaves caller FD identities unchanged.
+- Debian /bin/sh=dash cannot execute `exec 192>&-`; it fails127 (`exec: 192: not found`). Do not attempt high-FD cleanup via nominally portable POSIX shell redirections.
+
+Assumptions / required integration checks
+1. CLI raw numeric grant sources must be checked against launcher snapshot; direct `node dist/src/cli.js --grant-fd ...` is unsupported unless using the trusted bootstrap contract. Direct JS without grants can work.
+2. Incoming snapshot is not authentication against a trusted host intentionally bypassing the launcher. Host/runtime code and policy construction are trusted; workload remains untrusted.
+3. Complete target range/duplicates/source type validation and final source identity checks remain TS responsibilities.
+4. Linux stdio coverage must extend through ALL observed descriptor numbers, not only grant/control targets. Every hole must map to a real numeric /dev/null FD; 'ignore'/null does not close Linux inherited fd>=3.
+5. Linux backend private descriptors append after the covered stdio span. Do not truncate large maxFD; failclosed if unreasonable/unrepresentable.
+6. Enumerate late and avoid asynchronous gaps before spawning. Later runtime-created handles must remain CLOEXEC or receive explicit stdio handling.
+7. Avoid closing arbitrary caller descriptors in the library process. Child remapping satisfies this.
+8. Checking only non-CLOEXEC FDs inside the inner supervisor is insufficient on its own: Node can mark previously unapproved contiguous inherited descriptors CLOEXEC, leaving them readable via supervisor /proc entries. Host complete stdio replacement prevents those original identities entering the inner namespace.
+9. Final work template synchronized from root scripts/launcher.sh includes post-validation /usr/bin/readlink resolution, bounded to40 links. Four symlink cases pass on both platforms: external absolute symlink, relative symlink with grant, symlink chain with highFD grant, and PATH lookup through externalbin.
+10. Linux/Node embedding flags or native libraries can change fd behavior. Scope is standard Node24.19.0 startup and trusted host runtime; blackbox tests must run against final package.
+
+Primary source verification
+https://nodejs.org/download/release/v24.19.0/docs/api/child_process.html#optionsstdio
+- numeric stdio values and stream handles explicitly share/duplicate a parent descriptor at target index.
+https://github.com/nodejs/node/blob/v24.19.0/src/node.cc#L780-L784
+- Node initializes inherited-handle close-on-exec behavior.
+https://github.com/nodejs/node/blob/v24.19.0/deps/uv/src/unix/core.c#L753-L761
+- uv_disable_stdio_inheritance scans0..15 then stops after first invalidFD.
+https://github.com/nodejs/node/blob/v24.19.0/deps/uv/src/unix/process.c#L457-L470
+- macOS spawn uses POSIX_SPAWN_CLOEXEC_DEFAULT.
+https://github.com/nodejs/node/blob/v24.19.0/deps/uv/src/unix/process.c#L318-L354
+- Linux fork/spawn leaves ignored fd>=3 alone; explicit numeric mappings duplicate over slots.
+
+Reproduction
+Run from a scratch copy to keep release evidence immutable. Requires Python3 and Node24.19.0.
+python3 fd-probes/test-template.py (set SANDBOX_TEST_NODE to override Node path).
+Linux: python3 fd-probes/linux-cover.py; expects Node at /usr/local/bin/node and Python at /usr/bin/python3.
+macOS: python3 fd-probes/macos-ambient.py; async-inspect.mjs uses the Python3.12 executable recorded for this verification host.
+The Linux stdio probe intentionally reproduces the deliberately unsafe Node mapping first, asserts both leaks, then asserts complete-remapping cleanup and unchanged parent identities. It runs only local fixture processes.

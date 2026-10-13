@@ -1,0 +1,16 @@
+{
+  "name": "sandbox-runtime-dsh-bash",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/provider.test.js",
+    "test:upstream": "node --experimental-transform-types --import ./test/source-loader.js --test test/upstream.test.js",
+    "test:real": "node --experimental-transform-types --import ./test/source-loader.js --test test/upstream.test.js test/real-runner.test.js",
+    "test:tools": "node --import ./test/source-loader.js --test test/tools.test.js",
+    "test:all": "node --import ./test/source-loader.js --test test/provider.test.js test/upstream.test.js test/real-runner.test.js test/tools.test.js"
+  },
+  "engines": {
+    "node": ">=24.19.0"
+  }
+}
