@@ -11,9 +11,10 @@ import { LocalSubprocessRuntime } from '@deepseek-ai/dsh-subprocess-local'
 import { SandboxBashExecutor } from '@deepseek-ai/dsh-bash-sandbox'
 import type { Config as BashRuntimeConfig } from '@deepseek-ai/dsh-bash-sandbox'
 import type { ShellExecSpec, ShellExecution } from '@deepseek-ai/dsh-shell'
-import { RuntimeSandboxProvider, unsupported } from './provider.js'
-import type { AdapterConfig } from './provider.js'
-import { pathsOverlap, dshInstallationRoot } from './path-trust.js'
+import { RuntimeClient, unsupported } from '../../src/client.js'
+import type { ClientConfig } from '../../src/client.js'
+import { pathsOverlap } from '../../src/path-trust.js'
+import { dshInstallationRoot } from './path-trust.js'
 
 /** Raw supported settings; Cordis validates these into upstream volatile references. */
 export interface BashPluginOptions {
@@ -71,8 +72,8 @@ function targetMetadata(spec: ShellExecSpec): Readonly<Record<string, string>> {
  * PTC and PTY cannot obtain this provider or its private launch authorization.
  * The trusted DSH composition must supply the pinned source's local subprocess.
  */
-export function createBashOnlyPlugin(config: AdapterConfig, bashConfig: BashPluginOptions = {}): BashOnlyPlugin {
-  const provider = new RuntimeSandboxProvider(config)
+export function createBashOnlyPlugin(config: ClientConfig, bashConfig: BashPluginOptions = {}): BashOnlyPlugin {
+  const provider = new RuntimeClient(config)
   const scope = new AsyncLocalStorage<Invocation>()
   return {
     name: 'sandbox-runtime-bash-only',
@@ -106,7 +107,7 @@ export function createBashOnlyPlugin(config: AdapterConfig, bashConfig: BashPlug
           if (spec.stdio.control !== undefined || spec.stdio.stdin !== 'ignore' && !(spec.stdio.stdin && typeof spec.stdio.stdin === 'object' && Object.keys(spec.stdio.stdin).length === 1 && 'data' in spec.stdio.stdin)) unsupported('only Bash data/closed stdin and no application control FD are supported')
           if (typeof spec.stdio.stdout !== 'object' || spec.stdio.stdout === null || typeof spec.stdio.stderr !== 'object' || spec.stdio.stderr === null) unsupported('Bash output must use managed collection, not inherited handles')
           if (spec.graceMs < 3_000) unsupported('DSH termination grace must be at least 3000ms to contain Runner cleanup')
-          provider.consumePrepared(spec.argv)
+          invocation.argv = undefined
           // Tombstones are applied AFTER DSH's scrubbed ambient/proxy base. No ambient
           // loader variable can reach Runner before main, including newly added names.
           // The installed launcher invokes its trusted Node binary by absolute path.

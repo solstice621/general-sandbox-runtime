@@ -1,6 +1,5 @@
 import { realpathSync, readFileSync } from 'node:fs'
 import { dirname, basename, join } from 'node:path'
-export { pathContains, pathsOverlap } from '../../src/path-trust.js'
 
 /** Protect a complete DSH source checkout or an enclosing npm dependency tree. */
 export function dshInstallationRoot(packageDirectory: string): string {

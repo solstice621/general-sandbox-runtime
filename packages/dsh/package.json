@@ -1,9 +1,9 @@
 {
   "name": "@solstice621/sandbox-runtime-dsh",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
-  "description": "Bash sandbox-runtime integration for DSH 0.2.1-alpha.2",
+  "description": "Bash sandbox-runtime integration for DSH",
   "exports": {
     ".": "./index.js",
     "./package.json": "./package.json"
@@ -18,7 +18,7 @@
     "node": ">=24.19.0"
   },
   "dependencies": {
-    "@solstice621/sandbox-runtime": "0.3.0"
+    "@solstice621/sandbox-runtime": "0.4.0"
   },
   "dsh": {
     "bundle": {
@@ -26,6 +26,6 @@
     }
   },
   "peerDependencies": {
-    "@deepseek-ai/dsh": "0.2.1-alpha.2"
+    "@deepseek-ai/dsh": ">=0.2.1-alpha.2 <0.3.0"
   }
 }

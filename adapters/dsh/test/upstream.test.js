@@ -78,6 +78,6 @@ test('danger-full-access remains an explicit upstream bypass', async t => {
 
 test('a writable grant to an unrelated DSH package is refused before execution', async t => {
   const { shell } = await harness(t)
-  const unrelated = process.env.DSH_SOURCE_ROOT ? join(process.env.DSH_SOURCE_ROOT, 'packages', 'interaction', 'user-approval') : dirname(fileURLToPath(import.meta.resolve('@deepseek-ai/dsh-user-approval/package.json')))
+  const unrelated = dirname(fileURLToPath(import.meta.resolve('@deepseek-ai/dsh-user-approval/package.json')))
   await assert.rejects(run(shell, { command: 'true', sandboxPolicy: { mode: 'workspace-write', workspaceRoot: unrelated } }), /DSH installation overlaps/)
 })

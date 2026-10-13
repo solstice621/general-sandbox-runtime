@@ -1,45 +1,21 @@
-import { spawn } from 'node:child_process'
+import { execFile } from 'node:child_process'
 import { realpathSync } from 'node:fs'
 import { userInfo } from 'node:os'
+import { promisify } from 'node:util'
 import type { ClientConfig, ExecutionPolicy } from './client.js'
 
 export interface LaunchPlan {
-  readonly version: 1
   readonly policyJSON: string
   readonly environment: Readonly<Record<string, string>>
 }
 
-/**
- * The transport runs under Node OR Bun; policy parsing and filesystem audits
- * always run in the bound Node CLI. Bun's fs.Dirent encoding differs from
- * Node, so importing and calling the in-process policy engine is unsupported.
- */
-export async function prepareLaunch(config: ClientConfig, policy: ExecutionPolicy, argv: readonly string[], signal?: AbortSignal): Promise<LaunchPlan> {
-  const request = JSON.stringify({ config, policy, argv })
-  if (Buffer.byteLength(request) > 131072) throw new Error('runtime prepare request exceeds 128 KiB')
-  const child = spawn(config.runnerPath, ['prepare', '--request-json', request], {
+const execute = promisify(execFile)
+
+/** Bun delegates filesystem policy preparation to the same installed Node runtime. */
+export async function prepareLaunch(config: ClientConfig, policy: ExecutionPolicy, signal?: AbortSignal): Promise<LaunchPlan> {
+  const { stdout } = await execute(config.runnerPath, ['prepare', '--request-json', JSON.stringify({ config, policy })], {
     env: { PATH: '/usr/bin:/bin:/usr/sbin:/sbin', HOME: realpathSync(userInfo().homedir), LANG: 'C', LC_ALL: 'C', TERM: 'dumb' },
-    stdio: ['ignore', 'pipe', 'pipe'], signal, timeout: 65000, killSignal: 'SIGKILL',
+    encoding: 'utf8', maxBuffer: 131072, signal,
   })
-  let output = '', errorOutput = '', size = 0
-  const collect = (stderr: boolean) => (chunk: Buffer): void => {
-    size += chunk.length
-    if (size > 131072) child.kill('SIGKILL')
-    else if (stderr) errorOutput += chunk.toString('utf8')
-    else output += chunk.toString('utf8')
-  }
-  child.stdout.on('data', collect(false)); child.stderr.on('data', collect(true))
-  await new Promise<void>((resolve, reject) => {
-    child.once('error', reject)
-    child.once('close', (code, sig) => {
-      if (signal?.aborted) return reject(signal.reason)
-      if (code !== 0 || sig || size > 131072) return reject(new Error(`sandbox prepare failed (code=${code}, signal=${sig ?? 'none'}): ${errorOutput.slice(0, 4096)}`))
-      resolve()
-    })
-  })
-  const result: unknown = JSON.parse(output)
-  if (typeof result !== 'object' || result === null || !('version' in result) || result.version !== 1 || !('policyJSON' in result) || typeof result.policyJSON !== 'string' || !('environment' in result) || typeof result.environment !== 'object' || result.environment === null) throw new Error('invalid sandbox prepare response')
-  const environment = result.environment as Record<string, unknown>
-  if (Object.keys(environment).some(key => !['PATH', 'HOME', 'LANG', 'LC_ALL', 'TERM'].includes(key)) || Object.values(environment).some(value => typeof value !== 'string' || value.includes('\0'))) throw new Error('invalid sandbox prepare environment')
-  return Object.freeze({ version: 1, policyJSON: result.policyJSON, environment: Object.freeze(environment as Record<string, string>) })
+  return JSON.parse(stdout) as LaunchPlan
 }

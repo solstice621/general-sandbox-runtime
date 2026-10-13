@@ -1,6 +1,6 @@
 # Runtime and upstream design references
 
-Sandbox Runtime 0.2 implements its production core, policy validation, platform
+Sandbox Runtime implements its production core, policy validation, platform
 backends, Linux supervisor, and DSH adapter in TypeScript. The build emits ESM
 JavaScript and type declarations. A minimal shell launcher binds a trusted Node
 executable and checks raw caller FD grants before Node initializes its own
@@ -12,7 +12,7 @@ Node.js 24.19.0 or newer, macOS `/usr/bin/sandbox-exec`, and Linux
 bundle their executables. TypeScript and `@types/node` are pinned build-only
 dependencies; their exact resolved versions and notices are available through
 `package-lock.json` and the installed packages. DSH integration obtains the
-audited DSH packages from its trusted host installation. Python and the C syscall
+DSH packages from its trusted host installation. Python and the C syscall
 probe are validation tools, not production runtime dependencies.
 
 The architecture uses public operating-system interfaces and fixed upstream
@@ -29,16 +29,11 @@ implementations as research references:
   not embedded as a runtime dependency.
 - DeepSeek Harness, commit `d743267388641bc76f17c45ce8b4c231aed1d32c`:
   [repository](https://github.com/deepseek-ai/deepseek-harness/tree/d743267388641bc76f17c45ce8b4c231aed1d32c).
-  The adapter imports its public package APIs. Integration tests load separately
-  obtained, hash-checked upstream sources, which are not bundled in this source
-  delivery.
+  The adapter imports its public package APIs. Integration tests use the
+  published host packages installed from the npm lockfile.
 - [Bubblewrap](https://github.com/containers/bubblewrap) supplies Linux namespace,
-  mount, capability and seccomp setup as an external system dependency. Its
-  version and host capabilities must be recorded in each new platform result.
-
-Previous Go 0.1.0 results do not certify the TypeScript implementation. Fresh
-release evidence must identify the launcher, Node executable, compiled files,
-and package metadata that were actually executed.
+  mount, capability and seccomp setup as an external system dependency. The
+  host must support the namespaces and seccomp features used by the runtime.
 
 Preserve upstream license notices if subsequently vendoring code or external
 executables. No independent license choice for this newly authored project has

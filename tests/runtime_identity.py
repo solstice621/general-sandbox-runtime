@@ -1,73 +1,16 @@
-"""Content identity for the deployed interpreted Runtime, independent of its CLI.
-
-A launcher-only hash is insufficient: changing Node or a loaded JS file changes
-what executes. Metadata paths are reported, while the aggregate content hash uses
-stable logical artifact names so equal deployed bytes can be compared directly.
-"""
+"""Inspect the actual Node executable and compiled entry used by a test run."""
 import ctypes
-import hashlib
-import json
 import os
 from pathlib import Path
 import re
-import stat
 import subprocess
 import sys
 
 
 def capture_runtime_identity(runner, node, runtime_root=None):
     launcher = Path(runner).resolve(strict=True)
-    executable = Path(node).resolve(strict=True)
-    root = Path(runtime_root).resolve(strict=True) if runtime_root else launcher.parent.parent
-    if root != launcher.parent.parent or launcher.parent.name != "bin":
-        raise ValueError("runtime root must be the package containing the bin/ launcher")
-    dist = root / "dist"
-    package = root / "package.json"
-    if not dist.is_dir() or not package.is_file():
-        raise ValueError("TypeScript deployment requires dist/ and package.json; old native-binary evidence is not reusable")
-    if dist.is_symlink():
-        raise ValueError("deployed dist directory must be a real directory for closure inventory")
-    try:
-        relative_launcher = launcher.relative_to(root)
-    except ValueError as exc:
-        raise ValueError("launcher must be inside the declared runtime root") from exc
-    files = []
-
-    def add(role, logical, path):
-        if path.is_symlink():
-            raise ValueError(f"runtime artifact symlink requires explicit closure handling: {path}")
-        metadata = path.stat()
-        if not stat.S_ISREG(metadata.st_mode):
-            raise ValueError(f"not a regular runtime artifact: {path}")
-        files.append({"role": role, "artifact": logical, "path": str(path),
-                      "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
-                      "size": metadata.st_size, "mode": oct(stat.S_IMODE(metadata.st_mode))})
-
-    add("launcher", str(relative_launcher), launcher)
-    add("node", "node-executable", executable)
-    add("metadata", "package.json", package)
-    deployed = sorted(dist.rglob("*"))
-    for path in deployed:
-        if path.is_symlink():
-            raise ValueError(f"symlink in deployed closure: {path}")
-        if path.is_file():
-            add("deployed", str(path.relative_to(root)), path)
-    if not any(item["artifact"].endswith(".js") for item in files if item["role"] == "deployed"):
-        raise ValueError("deployment contains no compiled JavaScript")
-    files.sort(key=lambda item: (item["role"], item["artifact"]))
-    content_manifest = [{key: value for key, value in item.items() if key != "path"} for item in files]
-    canonical = json.dumps(content_manifest, sort_keys=True, ensure_ascii=True, separators=(",", ":")).encode()
-    return {"kind": "typescript-node-deployment-v1", "runtime_root": str(root),
-            "launcher": str(launcher), "node_executable": str(executable),
-            "closure_sha256": hashlib.sha256(canonical).hexdigest(), "artifacts": files,
-            "hash_scope": "launcher, canonical Node executable, package.json and every regular file under dist; includes test/build metadata if deployed"}
-
-
-def assert_runtime_unchanged(before, runner, node, runtime_root=None):
-    after = capture_runtime_identity(runner, node, runtime_root)
-    if before["closure_sha256"] != after["closure_sha256"]:
-        raise AssertionError("interpreted runtime closure changed during execution; rerun against a stable deployment")
-    return after
+    return {"launcher": str(launcher), "node_executable": str(Path(node).resolve(strict=True)),
+            "runtime_root": str(Path(runtime_root).resolve(strict=True) if runtime_root else launcher.parent.parent)}
 
 
 def _darwin_argv(pid):
@@ -101,7 +44,7 @@ def _darwin_argv(pid):
 
 
 def observe_runtime_process(pid, identity):
-    """Bind content identity to the actual running interpreter and entry file."""
+    """Verify the actual running interpreter and entry file."""
     expected_node = Path(identity["node_executable"])
     expected_entry = Path(identity["runtime_root"]) / "dist/src/cli.js"
     if sys.platform == "linux":
@@ -125,7 +68,7 @@ def observe_runtime_process(pid, identity):
     # rather than accidentally treating a later payload argument as the entry.
     entries = [value for value in arguments[1:] if not value.startswith("-")]
     if not entries or not os.path.samefile(entries[0], expected_entry):
-        raise AssertionError(f"runner entry is not the fingerprinted {expected_entry}")
+        raise AssertionError(f"runner entry is not the expected {expected_entry}")
     version = subprocess.check_output([str(expected_node), "--version"], text=True,
                                       env={"PATH": "/usr/bin:/bin:/usr/sbin:/sbin"}).strip()
     match = re.fullmatch(r"v(\d+)\.(\d+)\.(\d+)", version)

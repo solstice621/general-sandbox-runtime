@@ -6,8 +6,9 @@ import { SandboxProvider } from '@deepseek-ai/dsh-sandbox';
 import { SubprocessRuntime, scrubbedParentEnv } from '@deepseek-ai/dsh-subprocess';
 import { LocalSubprocessRuntime } from '@deepseek-ai/dsh-subprocess-local';
 import { SandboxBashExecutor } from '@deepseek-ai/dsh-bash-sandbox';
-import { RuntimeSandboxProvider, unsupported } from './provider.js';
-import { pathsOverlap, dshInstallationRoot } from './path-trust.js';
+import { RuntimeClient, unsupported } from '../../src/client.js';
+import { pathsOverlap } from '../../src/path-trust.js';
+import { dshInstallationRoot } from './path-trust.js';
 const FIXED_ENV = Object.freeze({ NO_COLOR: '1', TERM: 'dumb', PAGER: 'cat', GIT_PAGER: 'cat' });
 const DSH_ENTRYPOINTS = ['@deepseek-ai/cordis', '@deepseek-ai/cosmokit', '@deepseek-ai/schemastery', '@deepseek-ai/dsh-sandbox', '@deepseek-ai/dsh-shell', '@deepseek-ai/dsh-subprocess', '@deepseek-ai/dsh-subprocess-local', '@deepseek-ai/dsh-bash-sandbox', '@deepseek-ai/dsh-bash-local'];
 function assertProtectedInstallations(workspace) {
@@ -45,7 +46,7 @@ function targetMetadata(spec) {
  * The trusted DSH composition must supply the pinned source's local subprocess.
  */
 export function createBashOnlyPlugin(config, bashConfig = {}) {
-    const provider = new RuntimeSandboxProvider(config);
+    const provider = new RuntimeClient(config);
     const scope = new AsyncLocalStorage();
     return {
         name: 'sandbox-runtime-bash-only',
@@ -89,7 +90,7 @@ export function createBashOnlyPlugin(config, bashConfig = {}) {
                         unsupported('Bash output must use managed collection, not inherited handles');
                     if (spec.graceMs < 3_000)
                         unsupported('DSH termination grace must be at least 3000ms to contain Runner cleanup');
-                    provider.consumePrepared(spec.argv);
+                    invocation.argv = undefined;
                     // Tombstones are applied AFTER DSH's scrubbed ambient/proxy base. No ambient
                     // loader variable can reach Runner before main, including newly added names.
                     // The installed launcher invokes its trusted Node binary by absolute path.

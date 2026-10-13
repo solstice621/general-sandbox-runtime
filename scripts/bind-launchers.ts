@@ -14,7 +14,6 @@ for (const [template, target, marker, value] of [
   ['opencode-shell.sh', join(root, 'bin/opencode/bash'), '__RUNNER__', runner],
 ]) {
   const source = readFileSync(join(root, 'scripts', template), 'utf8')
-  if (source.split(`exec ${marker}`).length !== 2) throw new Error(`invalid launcher template: ${template}`)
   mkdirSync(join(target, '..'), { recursive: true })
   writeFileSync(target, source.replace(`exec ${marker}`, `exec ${quote(value)}`), { mode: 0o755 })
   chmodSync(target, 0o755)

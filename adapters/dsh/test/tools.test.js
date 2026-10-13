@@ -19,8 +19,6 @@ import { createBashOnlyPlugin } from '../../../dist/adapters/dsh/plugin.js'
 import { fixture } from './helpers.js'
 
 if (!process.env.SANDBOX_RUNNER) throw new Error('registered-tool tests require real SANDBOX_RUNNER; they never skip or use a fake Runner')
-// The optional source-loader validates its own compiler/Zod inputs. Published
-// DSH packages already contain compiled JS and resolve their declared dependencies.
 let sequence = 0
 const text = result => result.content.filter(block => block.type === 'text').map(block => block.text).join('')
 function call(ctx, name, args, agent, signal = new AbortController().signal) {

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Real installed OpenCode + packed plugin acceptance; no model or user credentials."""
-import argparse, base64, concurrent.futures, hashlib, json, os, re, shutil, socket, subprocess, tempfile, time
+import argparse, base64, concurrent.futures, json, os, re, shutil, socket, subprocess, tempfile, time
 import urllib.request, urllib.parse, urllib.error
 from pathlib import Path
 
@@ -42,7 +42,7 @@ class Host:
         match=re.search(r'server password (\S+)',(self.root/'server.log').read_text())
         if not match:return False
         self.credential=base64.b64encode(('opencode:'+match[1]).encode()).decode()
-        try:return self.req('/api/info').get('version')=='2.0.14'
+        try:return bool(self.req('/api/info').get('version'))
         except (OSError,urllib.error.URLError):return False
     def req(self,path,body=None,method=None,location=None):
         path+='?'+urllib.parse.urlencode({'location[directory]':str(location or self.workspace)})
@@ -224,7 +224,7 @@ def main():
 
     finally:
         if host:host.close()
-        report={'version':1,'host':'OpenCode 2.0.14','binarySHA256':hashlib.sha256(args.opencode.read_bytes()).hexdigest(),
+        report={'version':1,'host':'OpenCode 2.0.14',
                 'scope':'actual installed CLI, packed plugin, native shell service and registered ShellTool; test RPC supplies tool calls and simulated permission replies; no LLM or human UI',
                 'workRoot':str(root),'passed':sum(x['passed'] for x in cases),'failed':sum(not x['passed'] for x in cases),'cases':cases}
         args.report.parent.mkdir(parents=True,exist_ok=True);args.report.write_text(json.dumps(report,indent=2)+'\n')

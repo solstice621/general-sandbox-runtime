@@ -8,3 +8,5 @@ __pycache__/
 /test-results/local-*.json
 /test-results/ts-local-*.json
 /work/
+
+/test-results/

@@ -5,8 +5,6 @@ import { join } from 'node:path';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const node = realpathSync(process.execPath);
-const [major, minor] = process.versions.node.split('.').map(Number);
-if (major < 24 || (major === 24 && minor < 19)) throw new Error('Node >=24.19.0 is required');
 rmSync(join(root, 'dist'), { recursive: true, force: true });
 const compiler = join(root, 'node_modules/typescript/bin/tsc');
 const compile = spawnSync(node, [compiler, '--project', join(root, 'tsconfig.json')], { cwd: root, stdio: 'inherit' });

@@ -1,6 +1,6 @@
 {
   "name": "@solstice621/sandbox-runtime",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Typed command sandbox runtime with macOS Seatbelt and Linux Bubblewrap backends",
   "private": true,
   "type": "module",
@@ -22,10 +22,6 @@
     "./dsh": {
       "types": "./dist/adapters/dsh/plugin.d.ts",
       "import": "./dist/adapters/dsh/plugin.js"
-    },
-    "./dsh/provider": {
-      "types": "./dist/adapters/dsh/provider.d.ts",
-      "import": "./dist/adapters/dsh/provider.js"
     },
     "./client": {
       "types": "./dist/src/client.d.ts",

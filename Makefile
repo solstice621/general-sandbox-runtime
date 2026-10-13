@@ -2,7 +2,7 @@ NODE ?= node
 NPM ?= npm
 PYTHON ?= python3
 
-.PHONY: install build test typecheck vet acceptance benchmark
+.PHONY: install build test typecheck acceptance benchmark
 
 install:
 	"$(NPM)" ci
@@ -15,9 +15,6 @@ test: build
 
 typecheck:
 	"$(NODE)" node_modules/typescript/bin/tsc --noEmit
-
-# Retain the previous convenience target as an alias for strict TS checking.
-vet: typecheck
 
 acceptance: build
 	"$(PYTHON)" tests/acceptance.py --runner "$(CURDIR)/bin/sandbox-runner" --node "$$('$(NODE)' -p 'require("node:fs").realpathSync(process.execPath)')" --report test-results/ts-local-acceptance.json

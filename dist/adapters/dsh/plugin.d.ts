@@ -1,5 +1,5 @@
 import type { Context } from '@deepseek-ai/cordis';
-import type { AdapterConfig } from './provider.js';
+import type { ClientConfig } from '../../src/client.js';
 /** Raw supported settings; Cordis validates these into upstream volatile references. */
 export interface BashPluginOptions {
     readonly cwd?: string;
@@ -19,4 +19,4 @@ export interface BashOnlyPlugin {
  * PTC and PTY cannot obtain this provider or its private launch authorization.
  * The trusted DSH composition must supply the pinned source's local subprocess.
  */
-export declare function createBashOnlyPlugin(config: AdapterConfig, bashConfig?: BashPluginOptions): BashOnlyPlugin;
+export declare function createBashOnlyPlugin(config: ClientConfig, bashConfig?: BashPluginOptions): BashOnlyPlugin;

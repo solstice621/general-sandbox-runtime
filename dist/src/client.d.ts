@@ -3,12 +3,10 @@ export { SAFE_PATH } from './policy.js';
 /** Public configuration uses wire rules; logical is private runtime normalization metadata. */
 export type AdapterRule = Pick<Rule, 'path' | 'scope'>;
 export interface ClientConfig {
-    readonly scope: 'bash-only';
     readonly runnerPath: string;
     readonly network?: 'deny' | 'host';
     readonly denyRead?: readonly AdapterRule[];
     readonly denyWrite?: readonly AdapterRule[];
-    readonly checkTimeoutMs?: number;
     readonly protectedPaths?: readonly string[];
 }
 export interface ExecutionPolicy {
@@ -23,7 +21,7 @@ export interface PreparedCommand {
     runnerFailureRules: [];
 }
 export declare class AdapterError extends Error {
-    readonly code: 'INVALID_ADAPTER_CONFIG' | 'UNSUPPORTED_CONSUMER' | 'SANDBOX_UNAVAILABLE';
+    readonly code: 'INVALID_ADAPTER_CONFIG' | 'UNSUPPORTED_CONSUMER';
     constructor(code: AdapterError['code'], message: string);
 }
 export declare function unsupported(message: string): never;
@@ -34,6 +32,4 @@ export declare class RuntimeClient {
     safeEnvironment(): NodeJS.ProcessEnv;
     policyFor(policy: ExecutionPolicy): Policy;
     confine(argv: readonly string[], policy: ExecutionPolicy, signal?: AbortSignal): Promise<PreparedCommand>;
-    /** One-shot, identity-based authorization, never a command-prefix heuristic. */
-    consumePrepared(argv: readonly string[]): void;
 }

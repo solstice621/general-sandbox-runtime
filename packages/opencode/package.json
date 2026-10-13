@@ -1,9 +1,9 @@
 {
   "name": "@solstice621/sandbox-runtime-opencode",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
-  "description": "Bash sandbox-runtime integration for OpenCode 2.0.14",
+  "description": "Bash sandbox-runtime integration for OpenCode",
   "exports": {
     ".": "./index.js",
     "./package.json": "./package.json"
@@ -18,6 +18,6 @@
     "node": ">=24.19.0"
   },
   "dependencies": {
-    "@solstice621/sandbox-runtime": "0.3.0"
+    "@solstice621/sandbox-runtime": "0.4.0"
   }
 }

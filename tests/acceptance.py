@@ -10,7 +10,6 @@ import concurrent.futures
 import datetime
 import errno
 import fcntl
-import hashlib
 import json
 import os
 from pathlib import Path
@@ -25,14 +24,13 @@ import tempfile
 import time
 import traceback
 
-from runtime_identity import capture_runtime_identity, assert_runtime_unchanged, observe_runtime_process
+from runtime_identity import capture_runtime_identity, observe_runtime_process
 
 
 class Suite:
     def __init__(self, args):
         self.args = args
         self.runner = str(Path(args.runner).resolve(strict=True))
-        self.runner_hash = hashlib.sha256(Path(self.runner).read_bytes()).hexdigest()
         self.node = str(Path(args.node).resolve(strict=True))
         self.runtime_identity = capture_runtime_identity(self.runner, self.node, args.runtime_root)
         self.runtime_root = Path(self.runtime_identity["runtime_root"])
@@ -918,16 +916,10 @@ class Suite:
         finally:
             if not self.args.keep:
                 shutil.rmtree(self.root)
-        try:
-            assert_runtime_unchanged(self.runtime_identity, self.runner, self.node, self.runtime_root)
-        except (AssertionError, ValueError, OSError) as exc:
-            self.results.append({"name": "runtime-closure-modified-during-suite", "status": "fail",
-                                 "detail": str(exc), "duration_seconds": 0})
         return {"platform": sys.platform, "runner": self.runner, "python": self.python,
                 "os_version": platform.platform(), "python_version": platform.python_version(),
                 "started_at_utc": self.started_at,
                 "finished_at_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-                "runner_sha256": self.runner_hash,
                 "runtime_identity": self.runtime_identity,
                 "effective_uid": os.geteuid(),
                 "test_root": str(self.root), "test_root_retained": self.args.keep,

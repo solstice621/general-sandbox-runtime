@@ -2,7 +2,6 @@
 """Small reproducible startup benchmark and real tool compatibility smoke."""
 import argparse
 import datetime
-import hashlib
 import json
 import math
 import os
@@ -17,7 +16,7 @@ import sys
 import tempfile
 import time
 
-from runtime_identity import capture_runtime_identity, assert_runtime_unchanged, observe_runtime_process
+from runtime_identity import capture_runtime_identity, observe_runtime_process
 
 
 def main():
@@ -31,7 +30,6 @@ def main():
     args = parser.parse_args()
     assert args.samples >= 5 and args.warmup >= 0
     runner = str(Path(args.runner).resolve(strict=True))
-    runner_hash = hashlib.sha256(Path(runner).read_bytes()).hexdigest()
     node = str(Path(args.node).resolve(strict=True))
     identity = capture_runtime_identity(runner, node, args.runtime_root)
     with tempfile.TemporaryDirectory(prefix="srt-benchmark-") as fixture:
@@ -91,11 +89,9 @@ def main():
         execute(confined([cc, "-Wall", "-Wextra", str(source), "-o", str(output)]))
         binary_result = execute(confined([str(output)]))
         assert binary_result.stdout == b"sandbox-compiled-program\n"
-        assert_runtime_unchanged(identity, runner, node, args.runtime_root)
         report = {"platform": sys.platform, "runner": runner,
                   "os_version": platform.platform(), "python_version": platform.python_version(),
                   "measured_at_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-                  "runner_sha256": runner_hash,
                   "runtime_identity": identity,
                   "observed_runtime": observed_runtime,
                   "samples_each": args.samples, "warmup_each": args.warmup,

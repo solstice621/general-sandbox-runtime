@@ -8,11 +8,10 @@ export function fixture() {
   const runner = join(root, 'runner')
   writeFileSync(runner, `#!/bin/sh
 case "$1" in
-check) printf '%s\\n' '{"ok":true,"version":1,"platform":"${process.platform}","network":"deny"}'; exit 0;;
 run) shift; while [ "$1" != '--' ]; do shift; done; shift; exec "$@";;
 *) exit 120;;
 esac
 `)
   chmodSync(runner, 0o700)
-  return { root, workspace, runner, config: { scope: 'bash-only', runnerPath: runner } }
+  return { root, workspace, runner, config: { runnerPath: runner } }
 }

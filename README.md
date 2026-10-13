@@ -1,8 +1,8 @@
-# 通用 Sandbox Runtime 0.2
+# 通用 Sandbox Runtime 0.4
 
 命令沙盒的核心、策略校验、平台后端、Linux supervisor，以及 DSH / OpenCode Bash 插件均以 TypeScript 实现。严格 NodeNext 构建生成 JavaScript、类型声明和绑定本机 Node 绝对路径的 CLI launcher。核心没有第三方 npm 运行时依赖，不需要 Go 或自定义原生 helper，也不运行常驻服务。
 
-Runtime 面向可信 Harness 启动不可信命令的场景，提供 macOS Seatbelt 和 Linux Bubblewrap/seccomp 后端。所需隔离能力不可用时拒绝执行。平台验证状态、实际测试环境和运行时文件集合摘要见 [实施与验收报告](REPORT.md)；旧版 Go 的验收结果不能证明本次 TypeScript 实现正确。这不是虚拟机、多租户或资源配额系统。
+Runtime 面向可信 Harness 启动不可信命令的场景，提供 macOS Seatbelt 和 Linux Bubblewrap/seccomp 后端。所需隔离能力不可用时拒绝执行。测试命令见 [tests/README.md](tests/README.md)，本次结果见 [本次验证结果](#验证结果)。这不是虚拟机、多租户或资源配额系统。
 
 ## 构建和运行
 
@@ -19,7 +19,7 @@ npm run build
 ./bin/sandbox-runner version
 ```
 
-构建产物位于 `dist/`，`bin/sandbox-runner` 是最小 shell bootstrap。构建脚本将当次 `process.execPath` 的真实绝对路径写入 launcher；不能把某台机器生成的 launcher 当作另一台机器的通用入口。每个目标宿主必须使用其受信 Node 重新构建或生成匹配的 launcher。运行时需要保留完整部署目录，包括 `dist/`、根包元数据和 launcher；核心执行不依赖 `node_modules/` 中的构建工具。DSH 插件另由宿主提供固定版本的 DSH 包。
+构建产物位于 `dist/`，`bin/sandbox-runner` 是最小 shell bootstrap。构建脚本将当次 `process.execPath` 的真实绝对路径写入 launcher；不能把某台机器生成的 launcher 当作另一台机器的通用入口。每个目标宿主必须使用其受信 Node 重新构建或生成匹配的 launcher。运行时需要保留完整部署目录，包括 `dist/`、根包元数据和 launcher；核心执行不依赖 `node_modules/` 中的构建工具。DSH 插件另由宿主提供 DSH 包。
 
 为一个**已存在**的工作目录生成完整策略。策略通过 argv 传输，不要在其中放凭据。生成器不读取工作区隐式配置。
 
@@ -64,7 +64,7 @@ POLICY="$(python3 scripts/policy.py --workspace /absolute/project --mode workspa
 
 ## TypeScript API
 
-根包导出 `run`、`check`、`communicationGrant` 和共享策略类型；`@solstice621/sandbox-runtime/policy` 导出完整策略 API，`@solstice621/sandbox-runtime/dsh` 与 `@solstice621/sandbox-runtime/dsh/provider` 提供 DSH 接入模块。构建后的入口及 `.d.ts` 路径由根 `package.json` 的 `exports` 声明。
+根包导出 `run`、`check`、`communicationGrant` 和共享策略类型；`@solstice621/sandbox-runtime/policy` 导出完整策略 API，`@solstice621/sandbox-runtime/client` 提供共享客户端，`@solstice621/sandbox-runtime/dsh` 提供 DSH 接入模块。构建后的入口及 `.d.ts` 路径由根 `package.json` 的 `exports` 声明。
 
 直接引用受信部署也可以使用：
 
@@ -79,11 +79,11 @@ const result = await run({ policy, argv: ['/usr/bin/true'] })
 
 ## DSH / OpenCode 可安装插件
 
-0.3.0 提供三个 npm tarball、锁定依赖的安装器、独立启动命令和保留用户状态的卸载流程。安装及范围说明见 [PLUGINS.md](PLUGINS.md)，实际宿主验证见 [PLUGIN-VERIFICATION.md](PLUGIN-VERIFICATION.md)。当前个人 DSH / OpenCode 配置未被自动启用。
+0.4.0 提供三个 npm tarball、锁定依赖的安装器、独立启动命令和保留用户状态的卸载流程。安装及范围说明见 [PLUGINS.md](PLUGINS.md)，实际宿主验证见 [本次验证结果](#验证结果)。当前个人 DSH / OpenCode 配置未被自动启用。
 
 ## DSH 底层适配器
 
-使用 [Bash 适配器说明](adapters/dsh/README.md) 中的可信 composition 插件。适配器针对固定 DSH commit `d743267388641bc76f17c45ce8b4c231aed1d32c`，限定私有 Bash 服务作用域，保留已有审批、任务、输出和 subprocess 所有权。不要全局替换共享 Provider。
+使用 [Bash 适配器说明](adapters/dsh/README.md) 中的可信 composition 插件。适配器在 DSH 0.2.1-alpha.2 上验证，限定私有 Bash 服务作用域，保留已有审批、任务、输出和 subprocess 所有权。不要全局替换共享 Provider。
 
 `read-only` 和 `workspace-write` 映射到共享策略模型；`danger-full-access` 沿用 DSH 的明确旁路。`runnerFailureRules` 始终为空，payload 伪造 fatal stderr 不会被误报成“命令没有执行”。PTC、PTY、持久终端、原生文件工具和其他 MCP 工具不会因安装这个 Bash 插件自动受限。实际消费者验证记录与 CLI 验收记录分开保存。
 
@@ -101,10 +101,32 @@ python3 tests/benchmark.py --runner "$PWD/bin/sandbox-runner" \
   --node "$NODE_EXECUTABLE" --report test-results/ts-local-benchmark.json
 ```
 
-`--node` 必须指向生成 launcher 时选定的同一规范绝对路径。`SANDBOX_RUNTIME_INTEGRATION=1` 启用真实隔离下的 API 生命周期及 FD 测试；省略时这 4 项会明确跳过。最终两平台验证均启用了它。验收还需要 Python 3 和宿主 C 编译器；C 代码只用于低层系统调用测试，不是运行时 helper。`make build`、`make test`、`make typecheck`、`make acceptance` 和 `make benchmark` 提供相同流程；可用 `NODE=/absolute/path/to/node` 指定该宿主的受信 Node。
+`--node` 必须指向生成 launcher 时选定的同一规范绝对路径。`SANDBOX_RUNTIME_INTEGRATION=1` 启用真实隔离下的 API 生命周期及 FD 测试；省略时这 4 项会明确跳过。验收还需要 Python 3 和宿主 C 编译器；C 代码只用于低层系统调用测试，不是运行时 helper。`make build`、`make test`、`make typecheck`、`make acceptance` 和 `make benchmark` 提供相同流程；可用 `NODE=/absolute/path/to/node` 指定该宿主的受信 Node。
 
 完整验收必须在实际允许创建隔离边界的宿主上执行。禁止嵌套 Seatbelt/user namespace 时应报告失败，不能改成跳过。测试创建自己的临时 fixture 和 loopback 服务，验证文件、网络、FD 和进程结果。测试说明见 [tests/README.md](tests/README.md)，Linux 环境方法见 [tests/linux/README.md](tests/linux/README.md)。
 
-安装时保护完整 Runtime 部署树、Node、系统 helper、适配器、Harness 及其依赖。它们必须处于命令不可修改的受信边界内，并限制 group/world 写权限。升级时先在独立目录构建，验证**launcher、Node、编译产物与包元数据的完整文件集合**，完成该版本的目标环境验收，再等旧任务退出后切换绝对路径。只比较 launcher 的摘要不足以标识解释型运行时，也不能把旧版本结果改名用于新构建。
+安装时保护完整 Runtime 部署树、Node、系统 helper、适配器、Harness 及其依赖。它们必须处于命令不可修改的受信边界内，并限制 group/world 写权限。升级时在独立目录构建并完成目标环境验收，等旧任务退出后切换安装路径。
 
 macOS 使用进程组管理终止；自行脱离该组的后代不在回收保证内。直接 SIGKILL Runner 无法执行清理，macOS 子进程和临时目录可能继续存在。Linux 依靠私有 PID namespace 与 Bubblewrap 父进程死亡处理结束受管理进程，强杀仍可能留下临时资源。每次执行使用随机 run ID 和 ownership 记录，不提供仅凭 PID 删除旧目录的 GC；回收残留前必须确认没有进程使用它。
+
+## 0.4 简化内容
+
+移除每次 Bash 执行前的独立 `check` 子进程、固定的 `scope` 和 `checkTimeoutMs` 配置、旧 Provider 包装层、重复的准备结果校验及精确宿主版本拦截。OS 能力检查仍在实际执行时进行；Node/Bun 之间的准备调用使用标准 `execFile`。
+
+安装保留标准 npm lockfile，移除额外 SHA 清单、全目录哈希检查和硬编码测试数量的发布门槛。卸载允许配置被修改，保留会话状态及无关文件。旧源码加载器和历史测试输出已移出当前源码树；测试脚本和本次结果保留。文件、网络、FD 隔离，以及 OpenCode 插件尚未就绪时阻止普通 shell 执行的保护继续生效。
+
+## 验证结果
+
+2026-10-14 对 0.4.0 执行。Node 24.19.0；DSH 0.2.1-alpha.2；OpenCode 2.0.14。macOS 26.6.2 arm64，以及 Linux Debian 12 arm64（kernel 6.10.14、Bubblewrap 0.8.0、普通 UID 1000）。
+
+| 测试 | macOS | Linux |
+|---|---:|---:|
+| Runtime 单元测试 | 72 通过，1 平台不适用 | 71 通过，2 平台不适用 |
+| Runtime 行为验收 | 52 通过 | 52 通过 |
+| DSH 实际工具 | 24 通过 | 24 通过 |
+| DSH 实际 CLI 配置 | 2 通过 | 2 通过 |
+| OpenCode 实际宿主 | 18 通过 | 18 通过 |
+| 安装、编辑配置后卸载、状态保留 | 8 通过 | 8 通过 |
+| Linux supervisor | 不适用 | 3 通过 |
+
+以上无失败；SIGKILL 清理限制单独记录，不计入通过项。类型检查通过，benchmark 脚本在两平台各用 5 个样本完成 smoke check，并验证隔离下 Python、SQLite、子进程和 C 编译运行；不据此作性能提升结论。宿主测试使用隔离配置及确定性工具调用，没有调用模型或人工审批 UI。个人 DSH / OpenCode 配置未启用此插件。

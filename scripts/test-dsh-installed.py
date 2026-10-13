@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the real DSH suites against an installed, published host (no source loader)."""
+"""Run the real DSH suites against an installed, published host."""
 import argparse,os,shutil,subprocess
 from pathlib import Path
 p=argparse.ArgumentParser();p.add_argument('--prefix',type=Path,required=True);p.add_argument('--report',type=Path,required=True);a=p.parse_args()
@@ -8,9 +8,8 @@ if target.exists():raise SystemExit('Refusing to overwrite existing test directo
 target.mkdir(parents=True)
 try:
     for source in (repo/'adapters/dsh/test').glob('*.js'):
-        if source.name!='source-loader.js':shutil.copy2(source,target/source.name)
+        shutil.copy2(source,target/source.name)
     env={**os.environ,'SANDBOX_RUNNER':str(runtime/'bin/sandbox-runner')}
-    for key in ['DSH_SOURCE_ROOT','DSH_TYPESCRIPT_LIB','DSH_ZOD_ROOT']:env.pop(key,None)
     a.report.parent.mkdir(parents=True,exist_ok=True)
     with a.report.open('w') as stream:
         result=subprocess.run(['node','--test','--test-reporter=tap',*[str(target/name) for name in ['provider.test.js','upstream.test.js','real-runner.test.js','tools.test.js']]],env=env,stdout=stream,stderr=subprocess.STDOUT)

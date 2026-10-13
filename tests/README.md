@@ -1,6 +1,6 @@
 # Runtime acceptance tests
 
-`acceptance.py` is a black-box test runner using only the Python standard library and the host C compiler. It invokes the public CLI, performs actual reads/writes/connections, checks resulting bytes and process behavior, and returns nonzero for any failed required test. It does not read generated profiles as evidence that confinement worked. The TypeScript edition retains the prior behavioral cases and adds interpreted-runtime startup and deployment checks; previous Go reports do not establish TypeScript behavior.
+`acceptance.py` is a black-box test runner using only the Python standard library and the host C compiler. It invokes the public CLI, performs actual reads/writes/connections, checks resulting bytes and process behavior, and returns nonzero for any failed required test. It does not read generated profiles as evidence that confinement worked. It also inspects the executing Node process and tests startup-environment isolation.
 
 Run the suite from the repository root after building the binary:
 
@@ -28,13 +28,7 @@ python3 tests/benchmark.py \
 
 The benchmark warms both paths five times, then alternates 30 direct and 30 sandboxed `/usr/bin/true` executions. It records all samples, median, p95, median added latency and aggregate child CPU. A separate compatibility smoke test uses Python JSON/SQLite/tempfiles/subprocess and compiles and runs a small C program inside the sandbox. These measurements describe the tested machine; they do not establish a performance service level or memory bound.
 
-`--node` names the exact canonical Node executable selected by the generated launcher, not whichever `node` happens to be first in the test process PATH. `--runtime-root` can explicitly declare the package root; it must match the package containing the `bin/` launcher. `runtime_identity.py` hashes the launcher, canonical Node executable, root package metadata and every regular file beneath `dist/`, including deployed maps or tests. The same closure must remain unchanged through the test or benchmark. The historical `runner_sha256` field is retained as the launcher-only hash for compatibility; use `runtime_identity.closure_sha256` to identify the executed release. Both acceptance and benchmark independently inspect the running PID and exact argument vector, binding the interpreter executable and compiled entry path to that same inventory. macOS uses `proc_pidpath` plus `KERN_PROCARGS2`; Linux uses `/proc/PID/exe` and `/proc/PID/cmdline`.
-
-Evidence identity can be tested without running the sandbox:
-
-```sh
-python3 -m unittest discover -s tests -p test_runtime_identity.py -v
-```
+`--node` names the canonical Node executable selected by the generated launcher. Acceptance and benchmark inspect the running process and entry path: macOS uses `proc_pidpath` and `KERN_PROCARGS2`, and Linux uses `/proc/PID/exe` and `/proc/PID/cmdline`. `--runtime-root` can specify the package root explicitly.
 
 ## Evidence groups
 
@@ -62,7 +56,7 @@ python3 -m unittest discover -s tests -p test_runtime_identity.py -v
 
 ## Coverage boundaries
 
-- A successful macOS run does not establish Linux support, or conversely. Reports record platform, effective UID, interpreter, launcher SHA-256 and interpreted-runtime closure identity. The release matrix must cite each platform's own report. Preserve historical Go evidence separately; it is neither a TypeScript test result nor a performance baseline for the Node launch path without a new measurement.
+- A successful macOS run does not establish Linux support, or conversely. Reports record platform, effective UID, interpreter and observed behavior. Run the suite separately on each target platform.
 - Permission-induced cleanup failure is tested for nonroot users. Linux container root bypasses directory discretionary permissions, so this case is not run under UID 0 and is not counted as passing. Run as a nonroot account to obtain that evidence. The test intentionally creates a temporary cleanup error, then verifies run ID, owner UID, expected root and unpredictable marker before removing the exact owned leftover.
 - The macOS backend controls the managed process group. Arbitrary descendants that deliberately detach from that group are outside the cleanup guarantee. Runner SIGKILL cannot execute cleanup code; stale resources are not automatically deleted based only on a PID. The explicit SIGKILL probe reports `observed_limitation`, which is excluded from the passing-test count. It records leftover temp and continuing payload heartbeat, then kills only its previously recorded owned host process group and removes its exact verified resource. It never labels unconditional cleanup as passing.
 - Local UDP probes verify direct packet egress, including DNS-like UDP traffic. They do not certify a host's system resolver, caches, external DNS infrastructure or a public Internet route.
