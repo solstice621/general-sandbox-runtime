@@ -1,42 +1,52 @@
 {
   "name": "sandbox-runtime",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "implementation": "TypeScript",
   "release_date": "2026-10-14",
   "node_requirement": ">=24.19.0",
   "tested_node": "24.19.0",
   "typescript": "5.9.3",
-  "contains_go_runtime_or_native_custom_helper": false,
-  "included": "TypeScript source, compiled JavaScript/types/maps, host-bound shell launcher, tests, final evidence, docs",
-  "excluded": [
-    "node_modules",
-    "Node executable",
-    "system OS isolation helpers",
-    "prior Go implementation/evidence",
-    "scratch fixtures"
-  ],
-  "install": "npm ci && npm run build; each host regenerates its trusted absolute Node binding",
+  "hosts": {
+    "DSH": "0.2.1-alpha.2",
+    "OpenCode": "2.0.14"
+  },
+  "install": "python3 scripts/install-plugins.py install --opencode /absolute/opencode",
   "test_results": {
-    "macos": {
-      "acceptance_pass": 52,
-      "dsh_pass": 25,
-      "unit_pass": 72,
-      "unit_not_applicable": 1
+    "each_platform": {
+      "runtime_acceptance_pass": 52,
+      "dsh_tool_pass": 25,
+      "dsh_profile_pass": 2,
+      "opencode_pass": 18,
+      "installer_pass": 9
     },
-    "linux": {
-      "acceptance_pass": 52,
-      "dsh_pass": 25,
-      "unit_pass": 71,
-      "unit_not_applicable": 2
+    "macos_unit": {
+      "pass": 72,
+      "not_applicable": 1
     },
-    "launcher_each_platform": 60,
-    "linux_supervisor_extra_pass": 3
+    "linux_unit": {
+      "pass": 71,
+      "not_applicable": 2
+    }
   },
   "tested_runtime_closures": {
-    "macos-arm64": "dbb692dcf25909305dadf059043f98f1fbbfc15954fc442af23156ab6c97ee01",
-    "linux-arm64": "fe1cf367542f17ca10a7d8a7495c25e4b3fa5725d5f5613afa7a1d403dd1d60d"
+    "macos": "cbf7465779002e16988065ef345240b8fe94c930b82d5095db1d0b416835140e",
+    "linux": "4a620c0126759eefe971e81c5717d8e808730e3dd7d555b991256e3aa22a433b"
   },
-  "closure_definition": "launcher, canonical Node executable, package.json and every regular deployed dist file; OS/native dependencies are separate trusted prerequisites",
+  "plugin_artifacts": {
+    "solstice621-sandbox-runtime-0.3.0.tgz": "430ab0d4099f860921d9d90e9c360d49b8fbbc446de311282abcc0e2aba26853",
+    "solstice621-sandbox-runtime-dsh-0.3.0.tgz": "6993211c6c6aeef874fcf6dd60509999d3ef96e31f0848abbfad53e1df908b31",
+    "solstice621-sandbox-runtime-opencode-0.3.0.tgz": "e8f8fb7ca75bfa35ece85259ecce6284841772fb4e876da6e27484abc6773c24"
+  },
+  "personal_host_configuration_modified": false,
+  "historical_evidence": "REPORT.md body, evidence/typescript and test-results/typescript are frozen 0.2.0 evidence",
+  "scope": "Bash-only; see PLUGINS.md and PLUGIN-VERIFICATION.md",
+  "excluded": [
+    "node_modules",
+    "Node and host executables",
+    "OS helpers",
+    "scratch fixtures",
+    ".git"
+  ],
   "file_list_excludes": [
     "release-manifest.json",
     "SHA256SUMS"
@@ -61,22 +71,40 @@
       "sha256": "1cc788c75c35831c3f740494491c9b6841c4c8520e5c149b30d2c258f732e2aa"
     },
     {
-      "path": "README.md",
-      "bytes": 10436,
+      "path": "PLUGIN-VERIFICATION.md",
+      "bytes": 6520,
       "mode": "0o644",
-      "sha256": "445a001a999bcf168b9a6fdce259ece62d8e0fa631a8a4bf6281e1bca0b8e27f"
+      "sha256": "6f94b202fd4e6a7e981c4e6a9693ea57e4d429ff3a3b4d722eb29aeabc3eb742"
+    },
+    {
+      "path": "PLUGINS.md",
+      "bytes": 8692,
+      "mode": "0o644",
+      "sha256": "c9dc167374d9553b7b24d6daba12677fa58f595912cebca17bb241c031afed06"
+    },
+    {
+      "path": "README.md",
+      "bytes": 10810,
+      "mode": "0o644",
+      "sha256": "0d3519173be1675758c52cf48ada1a931b8fef36e339a4c72dd6d43b3dd0a50b"
     },
     {
       "path": "REPORT.md",
-      "bytes": 12717,
+      "bytes": 13057,
       "mode": "0o644",
-      "sha256": "776b7406360c4c22a5bea1f49c9fdac6d573336f82e3c3a384351b2e2f4ed5d0"
+      "sha256": "5b89ce26f3f77692f730610f76bb7f913dc12007bb34b7f07651001e95f8aaca"
     },
     {
       "path": "adapters/dsh/README.md",
-      "bytes": 11822,
+      "bytes": 12275,
       "mode": "0o644",
-      "sha256": "e9b16dd54398b92ff9fa53f10b3b86afcd4be48b1997c97464039d1a14d129cc"
+      "sha256": "ef2dd935b5e2a15ffdd560629a9b5d70cda1bac43d640f937f0ed484d735beb7"
+    },
+    {
+      "path": "adapters/dsh/entry.ts",
+      "bytes": 1319,
+      "mode": "0o644",
+      "sha256": "9ecd83c8f1e82785c309ae882fdef02c5d094b0b56db9a2e38abfef3568fa143"
     },
     {
       "path": "adapters/dsh/package.json",
@@ -86,9 +114,9 @@
     },
     {
       "path": "adapters/dsh/path-trust.ts",
-      "bytes": 2079,
+      "bytes": 1220,
       "mode": "0o644",
-      "sha256": "30b2817a27e164fdc42e6f63aabee06dd867de89abaecf6469b20fec9ac0c025"
+      "sha256": "fe77f4feb291b99cb34162919ee2eaffd958c13b146ddc5d47533d465e5698ce"
     },
     {
       "path": "adapters/dsh/pinned-dsh.d.ts",
@@ -104,9 +132,9 @@
     },
     {
       "path": "adapters/dsh/provider.ts",
-      "bytes": 9507,
+      "bytes": 356,
       "mode": "0o644",
-      "sha256": "b4f3615bd5b3cdf2d5fe82418a20ba09efcfc055acf155b898cd88b7064b78d3"
+      "sha256": "ad2d573056c7fc4075231e2a4323b2f9cfc821d7927064396e55dd9c16367d59"
     },
     {
       "path": "adapters/dsh/source-lock.json",
@@ -158,15 +186,15 @@
     },
     {
       "path": "adapters/dsh/test/tools.test.js",
-      "bytes": 10717,
+      "bytes": 10878,
       "mode": "0o644",
-      "sha256": "d3491ea972f23d73252f67fccc8fe8ce4893f5f72a8d897060c2d5e216d71df1"
+      "sha256": "b5033dd8b21cf0624185d150e19260818f7e931dac16eb917b8e44047bb56c9b"
     },
     {
       "path": "adapters/dsh/test/upstream.test.js",
-      "bytes": 5428,
+      "bytes": 5628,
       "mode": "0o644",
-      "sha256": "b9b487e8dd1cbdc94232debf99a33afc4bcef61adbfd3292ab2a6261e4241a5b"
+      "sha256": "7dd9db9b5e7075bc9b50053b74377593b4bd97b2435ca58a7404c46261cea631"
     },
     {
       "path": "adapters/dsh/test-evidence.json",
@@ -175,28 +203,82 @@
       "sha256": "dc4746eeda52781abb0d76335ee5e9a6fc8c86532447ee22721edace6df6f58f"
     },
     {
+      "path": "adapters/opencode/entry.ts",
+      "bytes": 2697,
+      "mode": "0o644",
+      "sha256": "4e9edddf719a65b0c8a6f0b44eb6d20eeadc91555a4a2955c3e027c218286770"
+    },
+    {
+      "path": "artifacts/SHA256SUMS",
+      "bytes": 520,
+      "mode": "0o644",
+      "sha256": "5d986e622acf2f821bedf71edc9d36be552900c87415ff3cd8a55a7f95fa991d"
+    },
+    {
+      "path": "artifacts/solstice621-sandbox-runtime-0.3.0.tgz",
+      "bytes": 60535,
+      "mode": "0o644",
+      "sha256": "430ab0d4099f860921d9d90e9c360d49b8fbbc446de311282abcc0e2aba26853"
+    },
+    {
+      "path": "artifacts/solstice621-sandbox-runtime-dsh-0.3.0.tgz",
+      "bytes": 875,
+      "mode": "0o644",
+      "sha256": "6993211c6c6aeef874fcf6dd60509999d3ef96e31f0848abbfad53e1df908b31"
+    },
+    {
+      "path": "artifacts/solstice621-sandbox-runtime-opencode-0.3.0.tgz",
+      "bytes": 851,
+      "mode": "0o644",
+      "sha256": "e8f8fb7ca75bfa35ece85259ecce6284841772fb4e876da6e27484abc6773c24"
+    },
+    {
+      "path": "bin/opencode/bash",
+      "bytes": 621,
+      "mode": "0o755",
+      "sha256": "202daa39a1ec4d2cb3008de8daedcfebd9fe8c49b5b2b41d669a58e7788d802d"
+    },
+    {
       "path": "bin/sandbox-runner",
       "bytes": 2982,
       "mode": "0o755",
       "sha256": "b6fd31956a5867d1f8a2156ebb8108bd0399d1e58744f3138bdfd289fe54266f"
     },
     {
-      "path": "dist/adapters/dsh/path-trust.d.ts",
-      "bytes": 536,
+      "path": "dist/adapters/dsh/entry.d.ts",
+      "bytes": 517,
       "mode": "0o644",
-      "sha256": "0b0e1eb40164b3ee23b7595a92c0bfb7a57677f4fd1bce2d08e06f7be5d15852"
+      "sha256": "fef5a1978df179d76e0fdf1d78562a486dee59ab63828b06cdc4826d2341e0a1"
+    },
+    {
+      "path": "dist/adapters/dsh/entry.js",
+      "bytes": 1095,
+      "mode": "0o644",
+      "sha256": "4052c785557280a0ba1c0fce05c6d6abdcac90b0c483f0c778404335e9c87da5"
+    },
+    {
+      "path": "dist/adapters/dsh/entry.js.map",
+      "bytes": 1225,
+      "mode": "0o644",
+      "sha256": "7f1bf2e0eb172bbf0ad91ea231b1bbb0f1a86d8d421ddd2888257ce2f2b7d01a"
+    },
+    {
+      "path": "dist/adapters/dsh/path-trust.d.ts",
+      "bytes": 232,
+      "mode": "0o644",
+      "sha256": "fd055f79cf2a4837ecd5fc22dea981fb310403bdb82ecb3e499da8f285d45e60"
     },
     {
       "path": "dist/adapters/dsh/path-trust.js",
-      "bytes": 2210,
+      "bytes": 1330,
       "mode": "0o644",
-      "sha256": "bee60708c6948a896e1a0af62437d455132e5563b45f9cb197bb426bf074a99b"
+      "sha256": "f44db3b186497fa043910fe94b3649be55bc8f77a27130c90bdbebf3f6814927"
     },
     {
       "path": "dist/adapters/dsh/path-trust.js.map",
-      "bytes": 2037,
+      "bytes": 1206,
       "mode": "0o644",
-      "sha256": "35474431d004b7ef4ee20fcdd998e4f060cfad37cd869d8b2a7b6252bffaf6c4"
+      "sha256": "b3d66ea0a06f702daf3ba4525744d8f842eb19cadedef96e4fff55db77dcbf99"
     },
     {
       "path": "dist/adapters/dsh/plugin.d.ts",
@@ -218,21 +300,93 @@
     },
     {
       "path": "dist/adapters/dsh/provider.d.ts",
-      "bytes": 1498,
+      "bytes": 367,
       "mode": "0o644",
-      "sha256": "ed9a15bbf6edb3073eddb6bddbe88485c22650f0e983b41044805111969203ca"
+      "sha256": "b1685d03f388158da1db4f0b9a2a4bc6e4de27ed1eab5a8323abed5d95d40a2b"
     },
     {
       "path": "dist/adapters/dsh/provider.js",
-      "bytes": 9127,
+      "bytes": 308,
       "mode": "0o644",
-      "sha256": "fcc9f0c5dd8a36de9b99338e41206a15afcb62d9fbdd548728fe872c85aa142c"
+      "sha256": "4bf455b8bc5da3453d9cb4aa33bd42b5fd1bfa0d283ad5adee9cf0a2d03b91e1"
     },
     {
       "path": "dist/adapters/dsh/provider.js.map",
-      "bytes": 8439,
+      "bytes": 262,
       "mode": "0o644",
-      "sha256": "66fc530464a9a477871532d2030dd15539a55a2a72ab34459d5b1533ef48c42e"
+      "sha256": "0cddba66167d3796c6fbcaf6e0580f3e7208fb30c2e97e0e3c80ef02c22f4623"
+    },
+    {
+      "path": "dist/adapters/opencode/entry.d.ts",
+      "bytes": 244,
+      "mode": "0o644",
+      "sha256": "8a492c69225d346e301c276229b184b243e0f4637674fce3770fcc01adf1f5ea"
+    },
+    {
+      "path": "dist/adapters/opencode/entry.js",
+      "bytes": 2717,
+      "mode": "0o644",
+      "sha256": "bcfc84a3bc00dea3263527d247b585616eb8fd3f4aaced5f12ec1bcdf2ef5a72"
+    },
+    {
+      "path": "dist/adapters/opencode/entry.js.map",
+      "bytes": 2463,
+      "mode": "0o644",
+      "sha256": "653c8594a2a9fd60b91ac5c58b5e5e20a146e36f3264d2f19587befaa3d732ae"
+    },
+    {
+      "path": "dist/packages/dsh/index.d.ts",
+      "bytes": 79,
+      "mode": "0o644",
+      "sha256": "62159606a52a3891b245f001d10ca0e700d9591388166c041313e18309010d84"
+    },
+    {
+      "path": "dist/packages/dsh/index.js",
+      "bytes": 112,
+      "mode": "0o644",
+      "sha256": "07f626c8dc8c0905e76efa54e8af3e997352cbd2585bf901ac28a77999c2fe38"
+    },
+    {
+      "path": "dist/packages/dsh/index.js.map",
+      "bytes": 178,
+      "mode": "0o644",
+      "sha256": "70df68593fe51fd48957bd26efd88148fedca968a0ca2dc073375626e7299837"
+    },
+    {
+      "path": "dist/packages/opencode/index.d.ts",
+      "bytes": 65,
+      "mode": "0o644",
+      "sha256": "5f9338e834dc95a2fb87f8d5558c1c5fb40d346c7515139bd96830dcfe24f0e5"
+    },
+    {
+      "path": "dist/packages/opencode/index.js",
+      "bytes": 98,
+      "mode": "0o644",
+      "sha256": "d20a17368c06c795c6134f3d454f2d4ce603e8010a4987544de18527647a40cc"
+    },
+    {
+      "path": "dist/packages/opencode/index.js.map",
+      "bytes": 163,
+      "mode": "0o644",
+      "sha256": "5997790fbe934dd99445f5fb4ed7ad98467365219ef459fe5df1d4579c0fb120"
+    },
+    {
+      "path": "dist/scripts/bind-launchers.d.ts",
+      "bytes": 11,
+      "mode": "0o644",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "dist/scripts/bind-launchers.js",
+      "bytes": 1323,
+      "mode": "0o644",
+      "sha256": "5cf048831a60438d48002ca1aba0848dd41dac9d8cc2f4efabfdf61222b2722d"
+    },
+    {
+      "path": "dist/scripts/bind-launchers.js.map",
+      "bytes": 1623,
+      "mode": "0o644",
+      "sha256": "e27b00bd54496becf8666500770d5015ec1c76219cc6021450f2823c661c10b6"
     },
     {
       "path": "dist/scripts/build.d.ts",
@@ -242,15 +396,15 @@
     },
     {
       "path": "dist/scripts/build.js",
-      "bytes": 1375,
+      "bytes": 1273,
       "mode": "0o644",
-      "sha256": "daa89003cd105a41a3180533a25905d0faa0872669a4ba093e49c83b60dd7604"
+      "sha256": "99fc2bc2cda3c32cb7a74dc1edadcb59d1323fb87ed44a2f28872bf126b012ba"
     },
     {
       "path": "dist/scripts/build.js.map",
-      "bytes": 1760,
+      "bytes": 1710,
       "mode": "0o644",
-      "sha256": "6b498226764f7aef820fdfd74bd51b9171ee2c50aa07b4b978dfe73f56c32a9b"
+      "sha256": "86240988672964f0a4ba512aa1c7ca04f0fbae1d43f9ebfe0952e29af0214a55"
     },
     {
       "path": "dist/src/backend-types.d.ts",
@@ -350,15 +504,33 @@
     },
     {
       "path": "dist/src/cli.js",
-      "bytes": 6796,
+      "bytes": 7658,
       "mode": "0o644",
-      "sha256": "6570f71f6f1f98e3e2b4b6d887931f6cd99d9ead7cfba7f7a36196cff8714824"
+      "sha256": "96b07aeabb3edb66e7e31d1dbee276a1969a199d65a827fab927076152592832"
     },
     {
       "path": "dist/src/cli.js.map",
-      "bytes": 7695,
+      "bytes": 8650,
       "mode": "0o644",
-      "sha256": "636fd1e6b9f85d37ee2e704773e56f8c9294d38d865e7caf493113b7b525736e"
+      "sha256": "af480047da64ba914de9c1fccef76a76208e75c2b441d08fb71ed41b34e4deee"
+    },
+    {
+      "path": "dist/src/client.d.ts",
+      "bytes": 1694,
+      "mode": "0o644",
+      "sha256": "d42d67fb02240640ec3a062448799f7611e612827dbc15ebf75e22d7ab0ead60"
+    },
+    {
+      "path": "dist/src/client.js",
+      "bytes": 9525,
+      "mode": "0o644",
+      "sha256": "67d0e71bd31833cf15aadf7276491182daf8a46961084376b3e067b1997c14bf"
+    },
+    {
+      "path": "dist/src/client.js.map",
+      "bytes": 8808,
+      "mode": "0o644",
+      "sha256": "314457ae4e318576ac8385466a9b0651d1f167450fc14ed8062346f3543be621"
     },
     {
       "path": "dist/src/index.d.ts",
@@ -377,6 +549,24 @@
       "bytes": 239,
       "mode": "0o644",
       "sha256": "008444ffa047379da5f1fe3f8b36ec488993a49037b616138c1255915d2c379c"
+    },
+    {
+      "path": "dist/src/path-trust.d.ts",
+      "bytes": 374,
+      "mode": "0o644",
+      "sha256": "690931b525a169c01b055828dbfae839e8c76e917cce0678317855ff2abe4160"
+    },
+    {
+      "path": "dist/src/path-trust.js",
+      "bytes": 1065,
+      "mode": "0o644",
+      "sha256": "332b168189b47a606a961ddc6b5e1f62b16bee42cb28f4305984eef3850fbc4c"
+    },
+    {
+      "path": "dist/src/path-trust.js.map",
+      "bytes": 1079,
+      "mode": "0o644",
+      "sha256": "3e42408b32e5103f2bc66c6ec944cc810dbfe8f0e1341a9971fe02929d6830e9"
     },
     {
       "path": "dist/src/policy.d.ts",
@@ -413,6 +603,24 @@
       "bytes": 15393,
       "mode": "0o644",
       "sha256": "29fd1c440b54f4295b38f1c038282bae5bd3859859d0fc3aefcf0bee719953d6"
+    },
+    {
+      "path": "dist/src/transport.d.ts",
+      "bytes": 610,
+      "mode": "0o644",
+      "sha256": "fa46195974f0edd61fa03ac92ac15f05a7c8f2a456ac638d0b0633551e11ea02"
+    },
+    {
+      "path": "dist/src/transport.js",
+      "bytes": 2616,
+      "mode": "0o644",
+      "sha256": "7212c2d6f5fa399c71004f3a6dd52cb5b9408c249cf25d8b874ef16acaab1360"
+    },
+    {
+      "path": "dist/src/transport.js.map",
+      "bytes": 2799,
+      "mode": "0o644",
+      "sha256": "3a778ac7df9da3f4d0b95b487f1bc4e3f6062f105f7759aabc595646268c80b5"
     },
     {
       "path": "dist/test/linux.test.d.ts",
@@ -485,6 +693,102 @@
       "bytes": 11064,
       "mode": "0o644",
       "sha256": "4739f1f2f0edb34af63c95b123ecd7ad354aec1f7222898cf97a30a60ef5e065"
+    },
+    {
+      "path": "evidence/plugins/linux-dsh-profile.json",
+      "bytes": 413,
+      "mode": "0o644",
+      "sha256": "70b0eee2b725cc259e25faa7a84b80119e737c15308dedaa44220b435591b2ea"
+    },
+    {
+      "path": "evidence/plugins/linux-dsh-tools.tap",
+      "bytes": 6134,
+      "mode": "0o644",
+      "sha256": "936cfd5fcce83ab6378c2cd36c43609e28fe27c53e4fe65ce451d55cfc48516f"
+    },
+    {
+      "path": "evidence/plugins/linux-environment.txt",
+      "bytes": 186,
+      "mode": "0o644",
+      "sha256": "a7d2df077143a05baee9930bc3393dedf336f27293bf279e2ae49964f1d2e228"
+    },
+    {
+      "path": "evidence/plugins/linux-installed-identity.json",
+      "bytes": 11856,
+      "mode": "0o644",
+      "sha256": "f8ec423f38e5866e17b76c1623b1f8972583eac08cab61f5f5a7c0846f260648"
+    },
+    {
+      "path": "evidence/plugins/linux-installer.json",
+      "bytes": 1285,
+      "mode": "0o644",
+      "sha256": "e2d619168bba2f22bb61445ab66610b0ef2efba169b85ae8c918d401c49904c5"
+    },
+    {
+      "path": "evidence/plugins/linux-launcher.sh",
+      "bytes": 2956,
+      "mode": "0o755",
+      "sha256": "9ffea3cf32f776e7b2f23e6c673fce716a26f0a192dc824517453f1c2ff6f66a"
+    },
+    {
+      "path": "evidence/plugins/linux-opencode.json",
+      "bytes": 3545,
+      "mode": "0o644",
+      "sha256": "f81bec3eca286eec062f76572b7b8defcf0ed87449562213c5b83202d9346b87"
+    },
+    {
+      "path": "evidence/plugins/linux-runtime-acceptance.json",
+      "bytes": 36138,
+      "mode": "0o644",
+      "sha256": "213a2fde5373324d4056c206452f90971353b4fac076d6dcf10d58b348ea99f8"
+    },
+    {
+      "path": "evidence/plugins/linux-runtime-unit.tap",
+      "bytes": 13048,
+      "mode": "0o644",
+      "sha256": "eb765a493240ad0b02689d1449420669816ba9553ada61156a2669b91854e35f"
+    },
+    {
+      "path": "evidence/plugins/macos-dsh-profile.json",
+      "bytes": 413,
+      "mode": "0o644",
+      "sha256": "70b0eee2b725cc259e25faa7a84b80119e737c15308dedaa44220b435591b2ea"
+    },
+    {
+      "path": "evidence/plugins/macos-dsh-tools.tap",
+      "bytes": 6088,
+      "mode": "0o644",
+      "sha256": "1a638e28dea64c795ee4780fe93581dfef812c4a6d8f04d558e3a1859127c9f6"
+    },
+    {
+      "path": "evidence/plugins/macos-installed-identity.json",
+      "bytes": 11855,
+      "mode": "0o644",
+      "sha256": "8277b907e4afff900a370e5bf110965b2fc47ae189bcb06c34f84258ccf74d46"
+    },
+    {
+      "path": "evidence/plugins/macos-installer.json",
+      "bytes": 1285,
+      "mode": "0o644",
+      "sha256": "e2d619168bba2f22bb61445ab66610b0ef2efba169b85ae8c918d401c49904c5"
+    },
+    {
+      "path": "evidence/plugins/macos-opencode.json",
+      "bytes": 3613,
+      "mode": "0o644",
+      "sha256": "f87ff90d673c8c932ef6b1e3cebe0e8ba4a0418447a432b3e1d0ae45eb50612e"
+    },
+    {
+      "path": "evidence/plugins/macos-runtime-acceptance.json",
+      "bytes": 43156,
+      "mode": "0o644",
+      "sha256": "fd433dd6386b67ac3a5ffeb13487a560263dce3023dd88023bd528e8304bf071"
+    },
+    {
+      "path": "evidence/plugins/macos-runtime-unit.tap",
+      "bytes": 13004,
+      "mode": "0o644",
+      "sha256": "b9d0eeae6672def9e2cab393db094996f9f538a32f909984a00ca05ab8167044"
     },
     {
       "path": "evidence/typescript/bootstrap/fd-probes/async-inspect.mjs",
@@ -601,16 +905,94 @@
       "sha256": "c7a02b56e444cea6861cfe066efb62694e629f5bd48ad21d8230a04fa78a13e7"
     },
     {
-      "path": "package-lock.json",
-      "bytes": 1573,
+      "path": "installation/package-lock.json",
+      "bytes": 397582,
       "mode": "0o644",
-      "sha256": "2f6eb19227762e70bb03a84194a0482f60c37986a7be00ed276429248b6781d0"
+      "sha256": "f44a6f759b309f43e4fe9f8fa82161146b50a610a70f9f616f81a45a8dc4c8a8"
+    },
+    {
+      "path": "installation/package.json",
+      "bytes": 475,
+      "mode": "0o644",
+      "sha256": "10df56506b3bcaca75eee0e44f3f986702e0362fd19a4c9d3377ca62e2369890"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 145226,
+      "mode": "0o644",
+      "sha256": "4f0925d013ebef5b3c17ef12d5fd2de464e9ab47cc06e25f913955be2ae108c3"
     },
     {
       "path": "package.json",
-      "bytes": 1274,
+      "bytes": 2056,
       "mode": "0o644",
-      "sha256": "524fb0baea359bb18475be7140da2772f3def2a5fffbc41a11dc402b6258497e"
+      "sha256": "17193f52fc5d9b0ccee069bda29251b627fef2ca766e98f051f7a00fd49e11ad"
+    },
+    {
+      "path": "packages/dsh/README.md",
+      "bytes": 545,
+      "mode": "0o644",
+      "sha256": "df2a6fda9190029336ee1717818664a45ae0b00798c54cc0702dd3d4d0e90a23"
+    },
+    {
+      "path": "packages/dsh/cordis.patch.yml",
+      "bytes": 102,
+      "mode": "0o644",
+      "sha256": "c270aa69daf2f1582e990ca4844a7b93d325b0218c3c9eb0cb6cebf260e8bb6b"
+    },
+    {
+      "path": "packages/dsh/index.d.ts",
+      "bytes": 79,
+      "mode": "0o644",
+      "sha256": "62159606a52a3891b245f001d10ca0e700d9591388166c041313e18309010d84"
+    },
+    {
+      "path": "packages/dsh/index.js",
+      "bytes": 112,
+      "mode": "0o644",
+      "sha256": "07f626c8dc8c0905e76efa54e8af3e997352cbd2585bf901ac28a77999c2fe38"
+    },
+    {
+      "path": "packages/dsh/index.ts",
+      "bytes": 78,
+      "mode": "0o644",
+      "sha256": "6fdd3abf7ff3d055a937c650ca9ac5f466408958d78d2869b72322a874284900"
+    },
+    {
+      "path": "packages/dsh/package.json",
+      "bytes": 615,
+      "mode": "0o644",
+      "sha256": "7d219199efff18a7b74885939ab086759f81301b82ed765c650244f695537146"
+    },
+    {
+      "path": "packages/opencode/README.md",
+      "bytes": 684,
+      "mode": "0o644",
+      "sha256": "e6a459a585d009e9149e7c56dd76dd8a717721b31091b83fb4d3bd65a18f481a"
+    },
+    {
+      "path": "packages/opencode/index.d.ts",
+      "bytes": 65,
+      "mode": "0o644",
+      "sha256": "5f9338e834dc95a2fb87f8d5558c1c5fb40d346c7515139bd96830dcfe24f0e5"
+    },
+    {
+      "path": "packages/opencode/index.js",
+      "bytes": 98,
+      "mode": "0o644",
+      "sha256": "d20a17368c06c795c6134f3d454f2d4ce603e8010a4987544de18527647a40cc"
+    },
+    {
+      "path": "packages/opencode/index.ts",
+      "bytes": 64,
+      "mode": "0o644",
+      "sha256": "f3bf2d890921d2516853983e80385801868159478302ef154d5bbf0c6b3b3f0e"
+    },
+    {
+      "path": "packages/opencode/package.json",
+      "bytes": 475,
+      "mode": "0o644",
+      "sha256": "eb5efb70b909777eaa5e5f4268a6c3ef03dc3b441b46bc70ca8e045952ead5ce"
     },
     {
       "path": "schema/README.md",
@@ -625,10 +1007,28 @@
       "sha256": "876eea9b65a43967ffcec0152875f9c7f449a963e3aaa3607af6e289a3a8920c"
     },
     {
-      "path": "scripts/build.ts",
-      "bytes": 1343,
+      "path": "scripts/bind-launchers.ts",
+      "bytes": 1257,
       "mode": "0o644",
-      "sha256": "0c63fd5c811becb22db91e0155eb656af57068a86013c5efbdb486ca2f033a96"
+      "sha256": "65ad47ab583ca37e368ac7cbb2fc7f362f0f2f52deee8a0fa7830d3f4acc7e64"
+    },
+    {
+      "path": "scripts/build.ts",
+      "bytes": 1211,
+      "mode": "0o644",
+      "sha256": "792f8330b4c1a13054996fb11fec7afd8839d80439fa96ff8a8e12c0f8be840a"
+    },
+    {
+      "path": "scripts/capture-plugin-evidence.py",
+      "bytes": 2236,
+      "mode": "0o644",
+      "sha256": "8be57b4239f89032e9fa43308bef82403b98b3cc827c1263a44929215bc88a46"
+    },
+    {
+      "path": "scripts/install-plugins.py",
+      "bytes": 10065,
+      "mode": "0o755",
+      "sha256": "4bbddbe3b1a480b73f0793a155da7d8b0ba8df3d718921c6b1f5fe42b1667b49"
     },
     {
       "path": "scripts/launcher.sh",
@@ -637,10 +1037,34 @@
       "sha256": "570840d8bbfcf5b2d624bb67035fadf3ca105ca17cbc66c5fca424d7eb56f736"
     },
     {
+      "path": "scripts/opencode-shell.sh",
+      "bytes": 513,
+      "mode": "0o644",
+      "sha256": "0659befbb329e82ff5c78d5b6025728c7ee1e3473c3ec8811f25dd6f46c6d871"
+    },
+    {
+      "path": "scripts/pack-plugins.py",
+      "bytes": 1417,
+      "mode": "0o644",
+      "sha256": "b939ea7e6aeeddfcc2a2b251ed059ed4bc253470557b9a7f7e6d8d934ad11701"
+    },
+    {
+      "path": "scripts/package-release.py",
+      "bytes": 3894,
+      "mode": "0o644",
+      "sha256": "664b35b761e3fd2d0ffc2ccb4ef36eb6c01c63755df2f46daaef3a8bf2dd7d3f"
+    },
+    {
       "path": "scripts/policy.py",
       "bytes": 1825,
       "mode": "0o644",
       "sha256": "5fe48c790e850d6b0a072bdbb334b7ef4913e69732df9130b6b9870f3a6d434a"
+    },
+    {
+      "path": "scripts/test-dsh-installed.py",
+      "bytes": 1431,
+      "mode": "0o644",
+      "sha256": "1f04fc3efbb3d8d059b22bbd28f172a925ba239ac38e4605616b43c219d9239d"
     },
     {
       "path": "src/backend-types.ts",
@@ -674,15 +1098,27 @@
     },
     {
       "path": "src/cli.ts",
-      "bytes": 6354,
+      "bytes": 7271,
       "mode": "0o644",
-      "sha256": "142be292e63cafe10c3810f88b51659f729cc163c335da06f141ec2ecbec643c"
+      "sha256": "d41e347b8fae3f0fdbe6401e4478fb257920ccd94229b9daf73b636ea612e4e0"
+    },
+    {
+      "path": "src/client.ts",
+      "bytes": 10175,
+      "mode": "0o644",
+      "sha256": "1c35545e22d6d5ad123fd0bb1c50c02a71b6cb79340647d81714b0e6e6e9e4ab"
     },
     {
       "path": "src/index.ts",
       "bytes": 249,
       "mode": "0o644",
       "sha256": "d8f1f9941890fac330fab5e77f7fa7dabe3d76d766c0ba0f6545a335e1e6e361"
+    },
+    {
+      "path": "src/path-trust.ts",
+      "bytes": 1003,
+      "mode": "0o644",
+      "sha256": "cc66b489399a5ffbf5676c1655a33e6383593a051a0b3d7400af11675627dca7"
     },
     {
       "path": "src/policy.ts",
@@ -695,6 +1131,12 @@
       "bytes": 15112,
       "mode": "0o644",
       "sha256": "8a5e3bf9b30c8466c5b9fcbb57476761e8e1e765a33571a4a38eaf26d9303934"
+    },
+    {
+      "path": "src/transport.ts",
+      "bytes": 2759,
+      "mode": "0o644",
+      "sha256": "846232dacd39a21b8cf0653defa4bb2013d8a4d47ee435750f2fdecb49a7a0ce"
     },
     {
       "path": "test/linux.test.ts",
@@ -787,6 +1229,36 @@
       "sha256": "7f5c0ccbdfcebb7161ce5033ffb552fb7cc38696b8731fd34c4a3b4185e9273c"
     },
     {
+      "path": "tests/plugins/dsh-profile-probe.mjs",
+      "bytes": 1198,
+      "mode": "0o644",
+      "sha256": "5501f1e97d88acf9f17f597f0aee496edb592e03097c2caebb1660d91ee8e0d4"
+    },
+    {
+      "path": "tests/plugins/dsh_profile_acceptance.py",
+      "bytes": 2330,
+      "mode": "0o644",
+      "sha256": "f462981c87988e21fbfce2aca9ada31f37ce80bb9959bb383a85d1f9ff568bda"
+    },
+    {
+      "path": "tests/plugins/installer_acceptance.py",
+      "bytes": 3796,
+      "mode": "0o644",
+      "sha256": "b68a508434777efa78053fb9c261f3f8e2cacb2fbd7552b092026100a15e212c"
+    },
+    {
+      "path": "tests/plugins/opencode-probe.mjs",
+      "bytes": 1708,
+      "mode": "0o644",
+      "sha256": "b2fdd1381a078421db38d1fd0d0723c5f279d2541f72d9b9dbf78469f26701c5"
+    },
+    {
+      "path": "tests/plugins/opencode_acceptance.py",
+      "bytes": 16271,
+      "mode": "0o644",
+      "sha256": "84e13c2c20ef7beda8ee4c2d50d9087185c754d39b250f4473fbd4c55818f4e8"
+    },
+    {
       "path": "tests/runtime_identity.py",
       "bytes": 7479,
       "mode": "0o644",
@@ -806,9 +1278,9 @@
     },
     {
       "path": "tsconfig.json",
-      "bytes": 505,
+      "bytes": 815,
       "mode": "0o644",
-      "sha256": "dfb3203b9dc8db857e31f0092696266af82ecc8708b1742ca257e909ef190f73"
+      "sha256": "fde471b9fc7aeabe17354c049253135e9173f025f9ce3b76bca28175d546e619"
     }
   ]
 }

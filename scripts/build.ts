@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import { mkdirSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, realpathSync, rmSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 
@@ -12,9 +12,9 @@ const compiler = join(root, 'node_modules/typescript/bin/tsc');
 const compile = spawnSync(node, [compiler, '--project', join(root, 'tsconfig.json')], { cwd: root, stdio: 'inherit' });
 if (compile.error) throw compile.error;
 if (compile.status !== 0) process.exit(compile.status ?? 1);
-const shellQuote = (value: string): string => `'${value.replaceAll("'", "'\\''")}'`;
-const template = readFileSync(join(root, 'scripts/launcher.sh'), 'utf8');
-if (!template.includes('exec __NODE__')) throw new Error('launcher template lacks Node binding');
-mkdirSync(join(root, 'bin'), { recursive: true });
-writeFileSync(join(root, 'bin/sandbox-runner'), template.replace('exec __NODE__', `exec ${shellQuote(node)}`), { mode: 0o755 });
-process.stdout.write(`Built TypeScript runtime; launcher binds ${node}\n`);
+for (const host of ['dsh', 'opencode']) {
+  for (const extension of ['js', 'd.ts']) copyFileSync(join(root, `dist/packages/${host}/index.${extension}`), join(root, `packages/${host}/index.${extension}`));
+}
+const bind = spawnSync(node, [join(root, 'dist/scripts/bind-launchers.js')], { cwd: root, stdio: 'inherit' });
+if (bind.error) throw bind.error;
+if (bind.status !== 0) process.exit(bind.status ?? 1);

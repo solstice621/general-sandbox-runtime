@@ -1,6 +1,7 @@
 import { closeSync, constants, fstatSync, openSync, readSync } from 'node:fs';
 import { communicationGrant, check, run } from './runner.js';
 import { MAX_POLICY_BYTES, parsePolicy, RuntimeError, safeEnvironment } from './policy.js';
+import { RuntimeClient } from './client.js';
 const parentPID = process.ppid;
 const abort = new AbortController();
 const handledSignals = ['SIGINT', 'SIGTERM', 'SIGHUP', 'SIGQUIT'];
@@ -78,7 +79,20 @@ function readPolicyFile(path) {
 async function main() {
     const [action, ...args] = process.argv.slice(2);
     if (action === 'version') {
-        process.stdout.write('sandbox-runtime 0.2.0 (TypeScript)\n');
+        process.stdout.write('sandbox-runtime 0.3.0 (TypeScript)\n');
+        return 0;
+    }
+    if (action === 'prepare') {
+        if (args.length !== 2 || args[0] !== '--request-json' || Buffer.byteLength(args[1]) > 131072)
+            invalid('prepare requires one request-json argument, at most 128 KiB');
+        const request = JSON.parse(args[1]);
+        if (typeof request !== 'object' || request === null || Object.keys(request).sort().join(',') !== 'argv,config,policy')
+            invalid('invalid prepare request');
+        const data = request;
+        const client = new RuntimeClient(data.config);
+        const prepared = await client.confine(data.argv, data.policy, abort.signal);
+        client.consumePrepared(prepared.argv);
+        process.stdout.write(`${JSON.stringify({ version: 1, policyJSON: prepared.argv[3], environment: client.safeEnvironment() })}\n`);
         return 0;
     }
     if (action !== 'check' && action !== 'run')

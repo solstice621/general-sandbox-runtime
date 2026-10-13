@@ -18,7 +18,9 @@ import * as BashEnvPlugin from '@deepseek-ai/dsh-shell-env'
 import { createBashOnlyPlugin } from '../../../dist/adapters/dsh/plugin.js'
 import { fixture } from './helpers.js'
 
-if (!process.env.SANDBOX_RUNNER || !process.env.DSH_TYPESCRIPT_LIB || !process.env.DSH_ZOD_ROOT) throw new Error('registered-tool tests require real SANDBOX_RUNNER, DSH_TYPESCRIPT_LIB, and DSH_ZOD_ROOT; they never skip or use a fake Runner')
+if (!process.env.SANDBOX_RUNNER) throw new Error('registered-tool tests require real SANDBOX_RUNNER; they never skip or use a fake Runner')
+// The optional source-loader validates its own compiler/Zod inputs. Published
+// DSH packages already contain compiled JS and resolve their declared dependencies.
 let sequence = 0
 const text = result => result.content.filter(block => block.type === 'text').map(block => block.text).join('')
 function call(ctx, name, args, agent, signal = new AbortController().signal) {
@@ -55,6 +57,8 @@ async function toolHarness(t, mode = 'workspace-write', jobs = true) {
   await ctx.plugin(BashEnvPlugin, { dshHome: f.root })
   await ctx.plugin(createBashOnlyPlugin(f.config, { cwd: f.workspace, timeoutMs: 5000 }))
   await ctx.plugin(ToolBash)
+  // Cordis' optional jobs injection installs the job-backed tool asynchronously.
+  await delay(0)
   const events = [{ type: 'turn/start', seq: 0, data: { turn: 1 } }]
   const id = `registered-tools-${++sequence}`
   const owner = ctx.plugin(() => {}).ctx

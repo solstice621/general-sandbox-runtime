@@ -1,0 +1,23 @@
+{
+  "name": "@solstice621/sandbox-runtime-opencode",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "Bash sandbox-runtime integration for OpenCode 2.0.14",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=24.19.0"
+  },
+  "dependencies": {
+    "@solstice621/sandbox-runtime": "0.3.0"
+  }
+}

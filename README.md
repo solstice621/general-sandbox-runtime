@@ -1,6 +1,6 @@
 # 通用 Sandbox Runtime 0.2
 
-命令沙盒的核心、策略校验、平台后端、Linux supervisor 和 DSH Bash 适配器均以 TypeScript 实现。严格 NodeNext 构建生成 JavaScript、类型声明和绑定本机 Node 绝对路径的 CLI launcher。核心没有第三方 npm 运行时依赖，不需要 Go 或自定义原生 helper，也不运行常驻服务。
+命令沙盒的核心、策略校验、平台后端、Linux supervisor，以及 DSH / OpenCode Bash 插件均以 TypeScript 实现。严格 NodeNext 构建生成 JavaScript、类型声明和绑定本机 Node 绝对路径的 CLI launcher。核心没有第三方 npm 运行时依赖，不需要 Go 或自定义原生 helper，也不运行常驻服务。
 
 Runtime 面向可信 Harness 启动不可信命令的场景，提供 macOS Seatbelt 和 Linux Bubblewrap/seccomp 后端。所需隔离能力不可用时拒绝执行。平台验证状态、实际测试环境和运行时文件集合摘要见 [实施与验收报告](REPORT.md)；旧版 Go 的验收结果不能证明本次 TypeScript 实现正确。这不是虚拟机、多租户或资源配额系统。
 
@@ -64,7 +64,7 @@ POLICY="$(python3 scripts/policy.py --workspace /absolute/project --mode workspa
 
 ## TypeScript API
 
-根包导出 `run`、`check`、`communicationGrant` 和共享策略类型；`@local/sandbox-runtime/policy` 导出完整策略 API，`@local/sandbox-runtime/dsh` 与 `@local/sandbox-runtime/dsh/provider` 提供 DSH 接入模块。构建后的入口及 `.d.ts` 路径由根 `package.json` 的 `exports` 声明。
+根包导出 `run`、`check`、`communicationGrant` 和共享策略类型；`@solstice621/sandbox-runtime/policy` 导出完整策略 API，`@solstice621/sandbox-runtime/dsh` 与 `@solstice621/sandbox-runtime/dsh/provider` 提供 DSH 接入模块。构建后的入口及 `.d.ts` 路径由根 `package.json` 的 `exports` 声明。
 
 直接引用受信部署也可以使用：
 
@@ -77,7 +77,11 @@ const result = await run({ policy, argv: ['/usr/bin/true'] })
 
 `run` 是异步 API。策略校验返回独立、深度冻结的对象，路径的原始逻辑别名保留为非枚举属性，不进入 wire JSON。嵌入者通过 `communicationGrant(source, target)` 创建通信授权，并负责将源句柄保持打开直到 spawn；不能用自行构造的普通对象代替授权。整个嵌入宿主及 Node 启动环境必须可信，导入模块之后才清理环境无法撤销已经运行的 preload。
 
-## DSH 接入
+## DSH / OpenCode 可安装插件
+
+0.3.0 提供三个 npm tarball、锁定依赖的安装器、独立启动命令和保留用户状态的卸载流程。安装及范围说明见 [PLUGINS.md](PLUGINS.md)，实际宿主验证见 [PLUGIN-VERIFICATION.md](PLUGIN-VERIFICATION.md)。当前个人 DSH / OpenCode 配置未被自动启用。
+
+## DSH 底层适配器
 
 使用 [Bash 适配器说明](adapters/dsh/README.md) 中的可信 composition 插件。适配器针对固定 DSH commit `d743267388641bc76f17c45ce8b4c231aed1d32c`，限定私有 Bash 服务作用域，保留已有审批、任务、输出和 subprocess 所有权。不要全局替换共享 Provider。
 

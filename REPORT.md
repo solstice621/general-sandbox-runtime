@@ -1,3 +1,7 @@
+# 0.3.0 plugin release
+
+The current installable DSH/OpenCode plugins and fresh verification are described in [PLUGINS.md](PLUGINS.md) and [PLUGIN-VERIFICATION.md](PLUGIN-VERIFICATION.md). The report below is the frozen **0.2.0 TypeScript baseline**. Its closure hashes and benchmark numbers must not be presented as measurements of 0.3.0.
+
 # Sandbox Runtime 0.2.0：TypeScript 重构与验收报告
 
 **交付日期：2026 年 10 月 14 日（Asia/Shanghai）。** Runtime 核心、共享 Policy、两平台后端、Linux supervisor 和 DSH Bash 适配器已全面迁移到 TypeScript。交付不依赖 Go，不通过 TypeScript 包装旧 Go 可执行文件。严格编译输出 JavaScript、类型声明及 source map；生产运行时仅依赖 Node 和系统隔离工具。

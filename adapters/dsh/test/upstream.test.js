@@ -3,6 +3,8 @@ import assert from 'node:assert/strict'
 import { readFileSync, existsSync, writeFileSync } from 'node:fs'
 import { setTimeout as delay } from 'node:timers/promises'
 import { join } from 'node:path'
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { harness, run } from './harness.js'
 
 test('pinned real Bash executor + local subprocess preserve foreground stdout/stderr/stdin/exit and scope', async t => {
@@ -76,6 +78,6 @@ test('danger-full-access remains an explicit upstream bypass', async t => {
 
 test('a writable grant to an unrelated DSH package is refused before execution', async t => {
   const { shell } = await harness(t)
-  const unrelated = join(process.env.DSH_SOURCE_ROOT, 'packages', 'interaction', 'user-approval')
+  const unrelated = process.env.DSH_SOURCE_ROOT ? join(process.env.DSH_SOURCE_ROOT, 'packages', 'interaction', 'user-approval') : dirname(fileURLToPath(import.meta.resolve('@deepseek-ai/dsh-user-approval/package.json')))
   await assert.rejects(run(shell, { command: 'true', sandboxPolicy: { mode: 'workspace-write', workspaceRoot: unrelated } }), /DSH installation overlaps/)
 })

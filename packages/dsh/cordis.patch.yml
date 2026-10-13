@@ -1,0 +1,5 @@
+- id: bash-sandbox
+  disabled: true
+- insert:
+    - id: sandbox-runtime-bash
+      name: './index.js'

@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@deepseek-ai/dsh": "0.2.1-alpha.2",
+    "@solstice621/sandbox-runtime": "file:../artifacts/solstice621-sandbox-runtime-0.3.0.tgz",
+    "@solstice621/sandbox-runtime-dsh": "file:../artifacts/solstice621-sandbox-runtime-dsh-0.3.0.tgz",
+    "@solstice621/sandbox-runtime-opencode": "file:../artifacts/solstice621-sandbox-runtime-opencode-0.3.0.tgz"
+  },
+  "name": "sandbox-runtime-hosts",
+  "version": "0.3.0"
+}

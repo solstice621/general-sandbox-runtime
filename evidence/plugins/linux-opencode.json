@@ -1,0 +1,135 @@
+{
+  "version": 1,
+  "host": "OpenCode 2.0.14",
+  "binarySHA256": "525f24ec428dcc71bbaebccc7b2fa1ec3910bfd4c3be9cda9c288a9e5fe3a406",
+  "scope": "actual installed CLI, packed plugin, native shell service and registered ShellTool; test RPC supplies tool calls and simulated permission replies; no LLM or human UI",
+  "workRoot": "/home/sandboxuser/fixtures/opencode-ofo3_m3u",
+  "passed": 18,
+  "failed": 0,
+  "cases": [
+    {
+      "name": "packed plugin is active in actual OpenCode 2.0.14",
+      "passed": true,
+      "detail": true,
+      "milliseconds": 0
+    },
+    {
+      "name": "argv quoting, stdout, stderr, exit and allowed write",
+      "passed": true,
+      "detail": {
+        "exit": 7,
+        "commandPreserved": true
+      },
+      "milliseconds": 104
+    },
+    {
+      "name": "outside write denied through a child Bash",
+      "passed": true,
+      "detail": null,
+      "milliseconds": 102
+    },
+    {
+      "name": "changing cwd cannot expand writable root",
+      "passed": true,
+      "detail": null,
+      "milliseconds": 109
+    },
+    {
+      "name": "Bun-to-Node preparation and payload scrub hostile environment",
+      "passed": true,
+      "detail": null,
+      "milliseconds": 101
+    },
+    {
+      "name": "network deny blocks loopback TCP",
+      "passed": true,
+      "detail": null,
+      "milliseconds": 130
+    },
+    {
+      "name": "native OpenCode timeout terminates sandbox command",
+      "passed": true,
+      "detail": null,
+      "milliseconds": 389
+    },
+    {
+      "name": "native shell removal cancels sandbox command",
+      "passed": true,
+      "detail": null,
+      "milliseconds": 100
+    },
+    {
+      "name": "real registered ShellTool executes through sandbox plugin",
+      "passed": true,
+      "detail": {
+        "output": "native-tool",
+        "truncated": false,
+        "exit": 0,
+        "status": "completed"
+      },
+      "milliseconds": 114
+    },
+    {
+      "name": "real native shell permission denial blocks side effects",
+      "passed": true,
+      "detail": null,
+      "milliseconds": 61
+    },
+    {
+      "name": "native approval sees original command and once grant stays one-shot",
+      "passed": true,
+      "detail": {
+        "resources": [
+          "printf approved > approval-once"
+        ],
+        "nextCallPrompted": true
+      },
+      "milliseconds": 174
+    },
+    {
+      "name": "native ShellTool background job retains output and completion",
+      "passed": true,
+      "detail": {
+        "returnedRunning": true,
+        "exit": 0
+      },
+      "milliseconds": 1124
+    },
+    {
+      "name": "native tool AbortSignal cancels its sandbox job",
+      "passed": true,
+      "detail": null,
+      "milliseconds": 108
+    },
+    {
+      "name": "native ShellTool output truncation remains available",
+      "passed": true,
+      "detail": null,
+      "milliseconds": 115
+    },
+    {
+      "name": "concurrent host shells keep independent output and execution",
+      "passed": true,
+      "detail": null,
+      "milliseconds": 200
+    },
+    {
+      "name": "read-only plugin policy denies writes while allowing reads and output",
+      "passed": true,
+      "detail": null,
+      "milliseconds": 201
+    },
+    {
+      "name": "invalid plugin options cannot fall back to an ordinary shell",
+      "passed": true,
+      "detail": null,
+      "milliseconds": 2
+    },
+    {
+      "name": "installer default shell guard denies execution when plugin is absent",
+      "passed": true,
+      "detail": null,
+      "milliseconds": 5
+    }
+  ]
+}

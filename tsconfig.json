@@ -12,8 +12,28 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": false,
     "noEmitOnError": true,
-    "types": ["node"]
+    "types": [
+      "node"
+    ],
+    "paths": {
+      "@solstice621/sandbox-runtime/dsh/plugin": [
+        "./adapters/dsh/entry.ts"
+      ],
+      "@solstice621/sandbox-runtime/opencode": [
+        "./adapters/opencode/entry.ts"
+      ]
+    }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "adapters/dsh/*.ts", "scripts/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts",
+    "adapters/dsh/*.ts",
+    "scripts/*.ts",
+    "adapters/opencode/*.ts",
+    "packages/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

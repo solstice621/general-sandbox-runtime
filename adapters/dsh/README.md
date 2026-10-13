@@ -2,7 +2,11 @@
 
 This adapter targets DeepSeek Harness commit `d743267388641bc76f17c45ce8b4c231aed1d32c` and Node.js 24.19.0 or newer. Production adapter and runtime code are TypeScript; the root strict NodeNext build emits the executable JavaScript and type declarations into `dist/`. It replaces the Bash executor using the existing `SandboxBashExecutor` and `LocalSubprocessRuntime`. It does not modify the user's installed DSH.
 
-## Installation
+## Installable bundle (0.3.0)
+
+For the tested published host **DSH 0.2.1-alpha.2**, use the installable `@solstice621/sandbox-runtime-dsh` bundle and [shared installer](../../PLUGINS.md). The instructions below describe the lower-level composition API. The source-pinned 0.2.0 evidence at the end is historical; current published-package evidence is in [PLUGIN-VERIFICATION.md](../../PLUGIN-VERIFICATION.md).
+
+## Low-level installation
 
 Run `npm run build` from the runtime root, then install the complete runtime tree and generated `bin/sandbox-runner` launcher at a trusted, canonical absolute path **outside every writable workspace**. Its file must have one hard link and must not be writable by group or others. Keep this adapter and the DSH installation outside writable workspaces as well; include any workspace-resident trusted control files in `denyWrite`.
 
@@ -22,7 +26,7 @@ await ctx.plugin(createBashOnlyPlugin({
 }, { graceMs: 3000 }))
 ```
 
-The DSH packages imported by `plugin.js` must resolve from the **same pinned DSH installation** as the host composition. When packaging, install the runtime beside those packages or provide the host's module-resolution mechanism. This is a composition module, not a claim that copying a JSON option into any DSH release installs it. Standard Bash tools can continue to consume `ctx.shell`.
+The DSH packages imported by `plugin.js` must resolve from the **same pinned DSH installation** as the host composition. When packaging, install the runtime beside those packages or provide the host's module-resolution mechanism. This low-level module requires a trusted composition; the 0.3.0 wrapper supplies the version-pinned bundle entry. Standard Bash tools can continue to consume `ctx.shell`.
 
 The installer creates private `sandbox` and `subprocess` scopes and captures the constructed Bash executor's context. Cordis normally rebinds service contexts to the caller; the bound method prevents a root `ctx.shell.execute()` call from accidentally selecting the shared services. An `AsyncLocalStorage` invocation record and one-shot argv identity link preparation to launch, including concurrent calls. The shared provider and subprocess remain unchanged for other consumers.
 
@@ -77,9 +81,9 @@ Agent identity, session event storage, and working-directory service are structu
 
 PTC/PTY remain explicitly unsupported; they are not counted as passing tests. The Linux DSH suite may use upstream's declared PGID fallback when its systemd scope infrastructure is unavailable; process-scope containment and this Runner's namespace sandbox are separate properties. macOS process-group limitations likewise remain. See `test-evidence.json` and the repository acceptance report for tested platform combinations and source/build hashes.
 
-Final frozen TypeScript macOS run: **25 passed, 0 failed, 0 skipped**, on Node 24.19.0 and macOS 26.6.2/arm64. The actual case-insensitive filesystem alias regression executed. A hostile `NODE_OPTIONS` preload marker never executed. Evidence is `test/final-macos.tap`; `test/final-macos.json` records the complete runtime/adapter source and compiled closure, launcher, Node executable, and test-source hashes.
+Historical 0.2.0 frozen TypeScript macOS run: **25 passed, 0 failed, 0 skipped**, on Node 24.19.0 and macOS 26.6.2/arm64. The actual case-insensitive filesystem alias regression executed. A hostile `NODE_OPTIONS` preload marker never executed. Evidence is `test/final-macos.tap`; `test/final-macos.json` records the complete runtime/adapter source and compiled closure, launcher, Node executable, and test-source hashes.
 
-Final frozen TypeScript Linux run: **25 passed, 0 failed, 0 skipped**, on Debian 12/aarch64, Linux 6.10.14-linuxkit, Bubblewrap 0.8.0, Node 24.19.0, ordinary named UID 1000. Evidence is `../../evidence/typescript/dsh-linux.tap`; the deployment closure is recorded in `../../evidence/typescript/linux-acceptance.json` under `runtime_identity` (SHA256 `fe1cf367542f17ca10a7d8a7495c25e4b3fa5725d5f5613afa7a1d403dd1d60d`). All 37 shared compiled runtime/adapter/package artifacts compared with macOS match byte for byte; platform launchers and Node binaries differ. Linux's filesystem is case-sensitive, and its symlink/inode identity regression executed. Upstream DSH's optional native systemd/cgroup helper was not validated; this result does not establish native cgroup containment. The runtime's PID namespace boundary was exercised independently.
+Historical 0.2.0 frozen TypeScript Linux run: **25 passed, 0 failed, 0 skipped**, on Debian 12/aarch64, Linux 6.10.14-linuxkit, Bubblewrap 0.8.0, Node 24.19.0, ordinary named UID 1000. Evidence is `../../evidence/typescript/dsh-linux.tap`; the deployment closure is recorded in `../../evidence/typescript/linux-acceptance.json` under `runtime_identity` (SHA256 `fe1cf367542f17ca10a7d8a7495c25e4b3fa5725d5f5613afa7a1d403dd1d60d`). All 37 shared compiled runtime/adapter/package artifacts compared with macOS match byte for byte; platform launchers and Node binaries differ. Linux's filesystem is case-sensitive, and its symlink/inode identity regression executed. Upstream DSH's optional native systemd/cgroup helper was not validated; this result does not establish native cgroup containment. The runtime's PID namespace boundary was exercised independently.
 
 The Go 0.1.0 results and intermediate TypeScript discovery logs have been retired. They are not mixed with the final TypeScript evidence.
 
