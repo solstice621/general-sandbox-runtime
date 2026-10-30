@@ -26,6 +26,6 @@
     }
   },
   "peerDependencies": {
-    "@deepseek-ai/dsh": ">=0.2.1-alpha.2 <0.3.0"
+    "@deepseek-ai/dsh": "*"
   }
 }

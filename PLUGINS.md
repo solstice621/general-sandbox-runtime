@@ -10,11 +10,13 @@ One TypeScript runtime, two thin host adapters. The downloadable npm tarballs ar
 | macOS backend | system `/usr/bin/sandbox-exec` |
 | Linux backend | non-setuid `/usr/bin/bwrap`, namespaces and seccomp |
 
-The installation lock selects DSH 0.2.1-alpha.2. OpenCode 2.0.14 is the tested host; its version string is not used as a runtime gate. Other host versions require compatibility testing. OpenCode v1 uses a different plugin API.
+The installation lock selects DSH 0.2.1-alpha.2 as a reproducible test/deployment fixture. The DSH adapter accepts any host version and keeps its runtime checks for the local subprocess service, private Bash scope, argument and stdio contracts. OpenCode 2.0.14 is the tested host; its version string is not used as a runtime gate. Other host versions require compatibility testing. OpenCode v1 uses a different plugin API.
+
+The packaged DSH adapter and runtime also pass their native provider, upstream integration, real-runner and registered-tool suites against the published DSH 0.2.1-rc.5 SDK on macOS. These automated checks use isolated fixtures; they do not establish desktop UI or model-provider behavior.
 
 ## Install and launch
 
-Download/extract the complete 0.4.0 release. It includes `artifacts/`, `installation/` and `scripts/`. Have the supported Node, npm, Python 3 and OpenCode installed. The installer uses `npm ci` with the included host dependency lock, suppresses dependency lifecycle scripts, and binds the runtime launchers to the selected Node. DSH is installed privately beside the runtime. It does not replace the user's existing DSH or OpenCode executable.
+Check out the current `main` branch (or a specific commit) for the unrestricted DSH peer declaration. The repository includes `artifacts/`, `installation/` and `scripts/`; historical release archives retain their original declarations. Have the supported Node, npm, Python 3 and OpenCode installed. The installer uses `npm ci` with the included host dependency lock, suppresses dependency lifecycle scripts, and binds the runtime launchers to the selected Node. DSH is installed privately beside the runtime. It does not replace the user's existing DSH or OpenCode executable.
 
 On this macOS machine:
 
